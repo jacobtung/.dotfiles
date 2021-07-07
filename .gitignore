@@ -7,6 +7,7 @@ xmonad/.xmonad/xmonad-x86_64-linux
 # ignore mpd generated files
 mpd/.config/mpd/database
 mpd/.config/mpd/pid
+mpd/.config/mpd/state
 mpd/.config/mpd/sticker.sql
 
 # ignore ncmpcpp generated files
