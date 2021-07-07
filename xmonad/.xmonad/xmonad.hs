@@ -2,11 +2,7 @@
 
 ------------------------------------------------------------------------
 -- IMPORTS
--- import for setFullscreenSupported in startupHook for real fullscreen support
-import Control.Monad
-import Data.Maybe
-import Data.List
----
+
 -- not used now
 --import XMonad.Layout.Tabbed
 --import XMonad.Layout.Renamed
@@ -14,6 +10,11 @@ import Data.List
 --import XMonad.Layout.Decoration
 --import XMonad.Layout.SimpleDecoration
 --import XMonad.Layout.MultiToggle
+
+-- import for setFullscreenSupported in startupHook for real fullscreen support
+-- import Control.Monad
+-- import Data.Maybe
+-- import Data.List
 ---
 import XMonad
 import Data.Monoid
@@ -43,9 +44,6 @@ myTerminal      = "xterm"
 
 myBrowser :: String
 myBrowser       = "firefox"
-
-myEditor :: String
-myEditor        = "gedit"
 
 myModMask :: KeyMask
 myModMask       = mod4Mask
@@ -119,7 +117,7 @@ myKeys =
     -- Multimedia Keys
         , ("M-C-=", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
         , ("M-C--", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
-        , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+        , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send 'Toggle mute button!'")
         , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
         , ("<XF86AudioMicMute>", spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
