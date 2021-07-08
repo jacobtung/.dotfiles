@@ -15,3 +15,4 @@ ncmpcpp/.config/ncmpcpp/error.log
 
 # ignore vim
 vim/.vim/.undo/*
+vim/.vim/plugged/*
