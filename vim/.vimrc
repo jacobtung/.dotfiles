@@ -9,7 +9,7 @@ syntax on
 set number
 set t_Co=256
 set background=dark
-colorscheme nord
+" colorscheme nord
 
 " function
 set noswapfile
@@ -48,3 +48,4 @@ let g:lightline =
     \{
     \ 'colorscheme':'one',
     \ }
+

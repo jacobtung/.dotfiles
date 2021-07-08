@@ -12,3 +12,6 @@ mpd/.config/mpd/sticker.sql
 
 # ignore ncmpcpp generated files
 ncmpcpp/.config/ncmpcpp/error.log
+
+# ignore vim
+vim/.vim/.undo/*
