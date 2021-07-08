@@ -1,21 +1,15 @@
--- JACOB'S XMONAD CONFIG FILE
-
 ------------------------------------------------------------------------
--- IMPORTS
+--                     jacob's xmonad config file                     --
+------------------------------------------------------------------------
 
--- not used now
+-- IMPORTS
+------------------------------------------------------------------------
 --import XMonad.Layout.Tabbed
 --import XMonad.Layout.Renamed
 --import XMonad.Layout.NoBorders
 --import XMonad.Layout.Decoration
 --import XMonad.Layout.SimpleDecoration
 --import XMonad.Layout.MultiToggle
-
--- import for setFullscreenSupported in startupHook for real fullscreen support
--- import Control.Monad
--- import Data.Maybe
--- import Data.List
----
 import XMonad
 import Data.Monoid
 import System.Exit
@@ -36,9 +30,8 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import qualified XMonad.Layout.MultiToggle as MT
 
-------------------------------------------------------------------------
 -- BASIC SETTINGS
-
+------------------------------------------------------------------------
 myTerminal :: String
 myTerminal      = "xterm"
 
@@ -63,15 +56,8 @@ myClickJustFocuses = False
 myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- add spacing around window, first "False" turn off smartspacing(only one window no spacing)
 
-------------------------------------------------------------------------
 --HOOKS SETTINGS
-
--- toggleCollapse :: X ()
--- toggleCollapse = do
---    toggleWindowSpacingEnabled
---    sendMessage ToggleStruts
-
-
+------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
@@ -118,7 +104,7 @@ myKeys =
         , ("M-C-=", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
         , ("M-C--", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send 'Toggle mute button!'")
-        , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+        , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send 'Toggle mute button!'")
         , ("<XF86AudioMicMute>", spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
@@ -148,7 +134,6 @@ myLayout = id . MT.mkToggle ( MT.single NBFULL) $ avoidStruts $ addTopBar $ mySp
 
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
@@ -165,22 +150,9 @@ myLogHook xmproc = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc
        --       , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 
             --, ppOrder  = \(ws:l:t) -> [ws,l]++[t]   
               }            
-------------------------------------------------------------------------
--- MAIN
 
--- func for set FullscreenSupported in startupHook
--- setFullscreenSupported :: X ()
--- setFullscreenSupported = addSupported ["_NET_WM_STATE", "_NET_WM_STATE_FULLSCREEN"]
--- 
--- addSupported :: [String] -> X ()
--- addSupported props = withDisplay $ \dpy -> do
---     r <- asks theRoot
---     a <- getAtom "_NET_SUPPORTED"
---     newSupportedList <- mapM (fmap fromIntegral . getAtom) props
---     io $ do
---       supportedList <- fmap (join . maybeToList) $ getWindowProperty32 dpy a r
---       changeProperty32 dpy r a aTOM propModeReplace (nub $ newSupportedList ++ supportedList)
--- func end
+-- MAIN
+------------------------------------------------------------------------
 main :: IO ()
 main = do
     xmproc <- spawnPipe "xmobar /home/jacob/.config/xmobar/xmobarrc"
@@ -204,3 +176,26 @@ defaults = def {
         logHook            = return (),
         startupHook        = myStartupHook -- <+> setFullscreenSupported -- real fullscreen support
         }  `additionalKeysP` myKeys
+
+-- HISTORY CODE
+------------------------------------------------------------------------
+{-
+1.import for setFullscreenSupported in startupHook for real fullscreen support
+    -- import Control.Monad
+    -- import Data.Maybe
+    -- import Data.List
+2. func for set FullscreenSupported in startupHook
+    -- setFullscreenSupported :: X ()
+    -- setFullscreenSupported = addSupported ["_NET_WM_STATE", "_NET_WM_STATE_FULLSCREEN"]
+    -- addSupported :: [String] -> X ()
+    -- addSupported props = withDisplay $ \dpy -> do
+    --     r <- asks theRoot
+    --     a <- getAtom "_NET_SUPPORTED"
+    --     newSupportedList <- mapM (fmap fromIntegral . getAtom) props
+    --     io $ do
+    --       supportedList <- fmap (join . maybeToList) $ getWindowProperty32 dpy a r
+    --       changeProperty32 dpy r a aTOM propModeReplace (nub $ newSupportedList ++ supportedList)
+    -- func end
+3.add to starthook
+    -- startupHook        = myStartupHook -- <+> setFullscreenSupported -- real fullscreen support
+-}
