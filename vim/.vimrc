@@ -32,6 +32,7 @@ set nobackup
 set undofile
 set undodir=~/.vim/.undo//
 set noerrorbells
+set viminfofile=~/.vim/.viminfo
 
 " editor
 set smartindent
