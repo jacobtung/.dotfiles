@@ -17,3 +17,9 @@ ncmpcpp/.config/ncmpcpp/error.log
 vim/.vim/.undo/*
 vim/.vim/plugged/*
 vim/.vim/.viminfo
+
+# ignore ibus rime
+ibus/.config/ibus/rime/build/
+ibus/.config/ibus/rime/installation.yaml
+ibus/.config/ibus/rime/luna_pinyin.userdb/
+ibus/.config/ibus/rime/user.yaml
