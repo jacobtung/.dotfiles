@@ -1,11 +1,12 @@
 ; depended on mpd music directory
-; mpd_music_dir = "~/Music"
+mpd_music_dir = "~/Music"
 
 ; store_lyrics_in_song_dir = yes
 lyrics_directory = ~/Music/.lyrics/
 
 ; looklike
-visualizer_data_source = "/tmp/mpd.fifo"
+visualizer_fifo_path = "/tmp/mpd.fifo"
+;visualizer_data_source = "/tmp/mpd.fifo"
 visualizer_output_name = "my_fifo"
 visualizer_in_stereo = "yes"
 visualizer_type = "spectrum"
