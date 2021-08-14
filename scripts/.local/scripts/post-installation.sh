@@ -218,7 +218,9 @@ function get_dotfiles() {
         11 "fontconfig" off
         12 "dunst" off
         13 "aria2" off
-    )
+        14 "gtk" off
+        15 "nordtheme" off
+    ) 
     choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     clear
     for choice in $choices
@@ -237,6 +239,8 @@ function get_dotfiles() {
             11) stow -vt ${HOME} fontconfig ;;
             12) stow -vt ${HOME} dunst ;;
             13) stow -vt ${HOME} aria2 ;;
+            14) stow -vt ${HOME} gtk ;;
+            15) stow -vt ${HOME} themes ;;
         esac
     done
 }
