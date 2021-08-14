@@ -4,9 +4,12 @@
 #              jacob's debian buster post-installation script                 #
 ###############################################################################
 
+# packages based on tsinghua repository
+
+HOME=/home/jacob
 user_local_bin=${HOME}/.local/bin/
 
-server_packages = (
+server_packages="
     zsh
     git
     curl
@@ -21,13 +24,13 @@ server_packages = (
     nfs-kernel-server
     nfs-common
     ranger
-    network-manger
+    network-manager
     build-essential
     firmware-linux
     intel-microcode
-)
+"
 
-wm_packages = (
+wm_packages="
     xorg
     lightdm
     libghc-xmonad-contrib-dev
@@ -40,7 +43,7 @@ wm_packages = (
     imagemagick
     mpv
     dunst
-    sxvi
+    sxiv 
     feh
     zathura
     zathura-pdf-poppler
@@ -57,23 +60,23 @@ wm_packages = (
     firefox-esr
     chromium
     thunderbird
-)
+"
 
-optional_packages = (
+optional_packages="
     obs-studio
     liferea
     telegram-desktop
     gimp
     libreoffice
-)
+"
 
 function updatetodate() {
     sudo apt-get update -y && sudo apt-get upgrade -y
 }
 
 function creat_user_local_bin() {
-    if [ ! -d "${user_local_bin}" ]; then
-        mkdir -p ${user_local_bin}
+    if [ ! -d $user_local_bin ]; then
+        mkdir -p $user_local_bin
     fi
 }
 
@@ -233,43 +236,54 @@ function get_dotfiles() {
     done
 }
 
-function main () {
-    # make sure the script has root or sudo privilage
-    if [[ "${UID}" -ne 0 ]]
-    then
-        echo 'Must execute with sudo or root' >&2
-        exit 1
-    fi
+# make sure the script has root or sudo privilage
+if [[ "${UID}" -ne 0 ]]
+then
+    echo 'Must execute with sudo or root' >&2
+    exit 1
+fi
 
-    # install package
-    updatetodate
-    sudo apt install -y server_packages
+cat > /etc/apt/sources.list << EOF
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
 
-    echo "
-    ###########################################################################
-    Do you wanna install wm environment related packages? Y/n 
-    ###########################################################################
-    "
-    read $wm_input
-    if [[$wm_input -eq "y"]] || [[$wm_input -eq "yes"]]; then
-        sudo apt install -y wm_packages
-    
-    echo "
-    ###########################################################################
-    Do you wanna install optional packages? Y/n
-    ###########################################################################
-    "
-    read $optional_input
-    if [[$optional_input -eq "y"]] || [[$optional_input -eq "yes"]]; then
-        sudo apt install -y optional_packages
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
 
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free   
+EOF
 
-    creat_user_local_bin
+creat_user_local_bin
 
-    get_other_packages
+# install package
+updatetodate
+sudo apt install -y ${server_packages}
 
-    get_dotfiles
+read -n 1 -p "
+###########################################################################
+Do you wanna install wm environment related packages? y/n 
+###########################################################################
+" wm_input
 
-    echo "Post-Installation Completed."
-    exit 0
-}
+if [ "$wm_input" = "y" ]; then
+    sudo apt install ${wm_packages} -y
+fi
+  
+read -n 1 -p "
+###########################################################################
+Do you wanna install optional packages? Y/n
+###########################################################################
+" optional_input
+if [ "$optional_input" = "y" ]; then
+    sudo apt install -y ${optional_packages}
+fi
+
+get_other_packages
+
+get_dotfiles
+
+echo "Post-Installation Completed."
