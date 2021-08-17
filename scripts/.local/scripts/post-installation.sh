@@ -41,6 +41,7 @@ wm_packages="
     libghc-xmonad-contrib-dev
     xmonad
     suckless-tools
+    papirus-icon-theme
     xmobar
     ibus
     ibus-rime
@@ -86,9 +87,9 @@ function creat_user_local_bin() {
 }
 
 function get_dropbox() {
-    wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+    wget -t 3 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
     sudo dpkg -i dropbox_2020.03.04_amd64.deb
-    sudo aptget -f install
+    sudo aptget -fy install
     dropbox -i install
 }
 
@@ -99,60 +100,58 @@ function get_spotify() {
 }
 
 function get_typora() {
-    wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
+    wget -t 3 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
     echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update && sudo apt-get install typora
 }
 
 function get_discord() {
-    wget https://discord.com/api/download?platform=linux&format=deb -O
+    wget -t 3 https://discord.com/api/download?platform=linux&format=deb -O
     discord.deb
     sudo dpkg -i discord.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
 
 function get_skype() {
-    wget https://go.skype.com/skypeforlinux-64.deb
+    wget -t 3 https://go.skype.com/skypeforlinux-64.deb
     sudo dpkg -i skypeforlinux-64.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
 
 function get_bitwarden() {
-    wget https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
+    wget -t 3 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
     Bitwarden-x86_64.AppImage
     mv Bitwarden-x86_64.AppImage ${user_local_bin}
 }
 
 function get_vscode() {
-    wget https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
+    wget -t 3 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
     sudo dpkg -i code.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
 
 function get_virtualbox() {
-    wget https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
+    wget -t 3 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
     sudo dpkg -i virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
 
 function get_teamviewer() {
-    wget
-    https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O
-    teamviewer.deb
+    wget -t 3 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
     sudo dpkg -i teamviewer.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
-
+ 
 function get_sublimetext() {
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+    wget -t 3 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt-get update && sudo apt-get install sublime-text
 }
 
 function get_displaycal() {
-    wget https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
+    wget -t 3 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
     sudo dpkg -i DisplayCAL.deb
-    sudo apt-get -f install
+    sudo apt-get -fy install
 }
 
 function get_ohmyzsh() {
@@ -284,7 +283,7 @@ fi
   
 read -n 1 -p "
 ###########################################################################
-Do you wanna install optional packages? Y/n
+Do you wanna install optional packages? y/n
 ###########################################################################
 " optional_input
 if [ "$optional_input" = "y" ]; then
