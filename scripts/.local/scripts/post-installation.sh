@@ -11,10 +11,30 @@
 #       2.print server
 #       3.standard system utilities
 
+###############################################################################
+#                                  VARIABLES                                  #
+###############################################################################
 HOME=/home/jacob
+
 user_local_bin=${HOME}/.local/bin/
 
-server_packages="
+dotfiles_url=https://github.com/jacobtung/.dotfiles
+
+tsinghua_buster_apt_sourcelist="
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
+"
+
+essential_packages="
     zsh
     git
     curl
@@ -76,90 +96,94 @@ optional_packages="
     libreoffice
 "
 
-function updatetodate() {
+###############################################################################
+#                                  FUNCTIONS                                  #
+###############################################################################
+
+apt_update() {
     sudo apt-get update -y && sudo apt-get upgrade -y
 }
 
-function creat_user_local_bin() {
+creat_user_local_bin() {
     if [ ! -d $user_local_bin ]; then
         mkdir -p $user_local_bin
     fi
 }
 
-function get_dropbox() {
+get_dropbox() {
     wget -t 3 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
     sudo dpkg -i dropbox_2020.03.04_amd64.deb
     sudo aptget -fy install
     dropbox -i install
 }
 
-function get_spotify() {
+get_spotify() {
     curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     sudo apt-get update && sudo apt-get install spotify-client
 }
 
-function get_typora() {
+get_typora() {
     wget -t 3 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
     echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update && sudo apt-get install typora
 }
 
-function get_discord() {
+get_discord() {
     wget -t 3 https://discord.com/api/download?platform=linux&format=deb -O
     discord.deb
     sudo dpkg -i discord.deb
     sudo apt-get -fy install
 }
 
-function get_skype() {
+get_skype() {
     wget -t 3 https://go.skype.com/skypeforlinux-64.deb
     sudo dpkg -i skypeforlinux-64.deb
     sudo apt-get -fy install
 }
 
-function get_bitwarden() {
+get_bitwarden() {
     wget -t 3 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
     Bitwarden-x86_64.AppImage
     mv Bitwarden-x86_64.AppImage ${user_local_bin}
 }
 
-function get_vscode() {
+get_vscode() {
     wget -t 3 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
     sudo dpkg -i code.deb
     sudo apt-get -fy install
 }
 
-function get_virtualbox() {
+get_virtualbox() {
     wget -t 3 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
     sudo dpkg -i virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
     sudo apt-get -fy install
 }
 
-function get_teamviewer() {
+get_teamviewer() {
     wget -t 3 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
     sudo dpkg -i teamviewer.deb
     sudo apt-get -fy install
 }
  
-function get_sublimetext() {
+get_sublimetext() {
     wget -t 3 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt-get update && sudo apt-get install sublime-text
 }
 
-function get_displaycal() {
+get_displaycal() {
     wget -t 3 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
     sudo dpkg -i DisplayCAL.deb
     sudo apt-get -fy install
 }
 
-function get_ohmyzsh() {
+get_ohmyzsh() {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 }
 
-function get_other_packages() {
+get_other_packages() {
     sudo apt-get install dialog
     cmd=(dialog --separate-output --checklist "Please Select Programs you wanna
     install:" 22 76 16)
@@ -177,7 +201,7 @@ function get_other_packages() {
         11 "displaycal" off
         12 "ohmyzsh" off
     )
-    choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    choices=`"${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty`
     clear
     for choice in $choices
     do
@@ -198,8 +222,9 @@ function get_other_packages() {
     done
 }
 
-function get_dotfiles() {
-    git clone https://github.com/jacobtung/.dotfiles
+depoly_dotfiles() {
+    cd ${HOME}
+    git clone dotfiles_url
     cd .dotfiles
     cmd=(dialog --separate-output --checklist "Please Select dotfiles you wanna
     to stow:" 22 76 16)
@@ -244,54 +269,72 @@ function get_dotfiles() {
     done
 }
 
-# make sure the script has root or sudo privilage
+
+
+###############################################################################
+#                                     MAIN                                    #
+###############################################################################
+
+echo "
+###########################################################################
+#             jacob's debian buster post-installation script              #
+###########################################################################
+
+# ABOUT THIS SCRIPT!
+# 1) packages based on tsinghua repository
+# 2) debian installation:
+#       1.ssh server
+#       2.print server
+#       3.standard system utilities
+
+"
+
+#1.check privilage
+
 if [[ "${UID}" -ne 0 ]]
 then
     echo 'Must execute with sudo or root' >&2
     exit 1
 fi
 
+#2.creat environment
+
 cat > /etc/apt/sources.list << EOF
-# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
-
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
-
-deb https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free   
+${tsinghua_buster_apt_sourcelist}
 EOF
 
 creat_user_local_bin
 
-# install package
-updatetodate
-sudo apt install -y ${server_packages}
+apt_update
+
+#3.installation start
+sudo apt install -y ${essential_packages}
 
 read -n 1 -p "
 ###########################################################################
-Do you wanna install wm environment related packages? y/n 
+        Do you wanna install wm environment related packages? y/n 
 ###########################################################################
 " wm_input
 
-if [ "$wm_input" = "y" ]; then
+if [ $wm_input = y ] || [ $wm_input = Y ]; then
     sudo apt install ${wm_packages} -y
 fi
   
 read -n 1 -p "
 ###########################################################################
-Do you wanna install optional packages? y/n
+                Do you wanna install optional packages? y/n
 ###########################################################################
 " optional_input
-if [ "$optional_input" = "y" ]; then
+if [ $optional_input = y ] || [ $optional_input = Y ]; then
     sudo apt install -y ${optional_packages}
 fi
 
 get_other_packages
 
-get_dotfiles
+depoly_dotfiles
 
-echo "Post-Installation Completed."
+echo "
+###########################################################################
+                        Post-Installation Completed 
+###########################################################################
+"
