@@ -3,11 +3,14 @@
 export PATH=$PATH:/home/jacob/.local/scripts
 
 #~/.dropbox-dist/dropboxd &
+dropbox start &
 
 # MPD daemon start (if no other user instance exists)
 [ ! -s ~/.config/mpd/pid ] && mpd &
 
 xrdb ~/.Xresources &
+
+loadbg &
 
 # use capslock to change en/zh input in ibus-rime
 # 1. disable capslock normal mode
