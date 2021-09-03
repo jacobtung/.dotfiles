@@ -1,19 +1,9 @@
 #!/bin/bash
 
 ###############################################################################
-#              jacob's debian buster post-installation script                 #
-###############################################################################
-
-# NOTES!
-# 1) packages based on tsinghua repository
-# 2) debian installation:
-#       1.ssh server
-#       2.print server
-#       3.standard system utilities
-
-###############################################################################
 #                                  VARIABLES                                  #
 ###############################################################################
+
 HOME=/home/jacob
 
 user_local_bin=${HOME}/.local/bin/
@@ -71,6 +61,7 @@ wm_packages="
     dunst
     sxiv 
     feh
+    byzanz
     zathura
     zathura-pdf-poppler
     thunar

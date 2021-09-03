@@ -61,7 +61,7 @@ mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- ad
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
-    spawnOnce "~/.local/scripts/loadbg.sh &"
+    spawnOnce "loadbg"
     >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
 
 myKeys :: [(String, X ())]
@@ -78,7 +78,7 @@ myKeys =
         , ("M-S-b", spawn "~/.local/bin/Bitwarden*.AppImage --no-sandbox %U")
         , ("M-S-e", spawn "thunar")
         , ("M-S-s", spawn "spotify")
-        , ("<Print>", spawn "screenshot.sh")
+        , ("<Print>", spawn "printscreen")
     -- Kill windows
         , ("M-S-c", kill)     -- Kill the currently focused client
     -- Windows navigation
