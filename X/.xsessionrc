@@ -10,7 +10,7 @@ dropbox start &
 
 xrdb ~/.Xresources &
 
-loadbg &
+loadbg
 
 # use capslock to change en/zh input in ibus-rime
 # 1. disable capslock normal mode

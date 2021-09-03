@@ -61,7 +61,7 @@ mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- ad
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
-    spawnOnce ""
+    spawnOnce "feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg"
     >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
 
 myKeys :: [(String, X ())]

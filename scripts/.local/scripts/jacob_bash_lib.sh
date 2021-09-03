@@ -2,13 +2,8 @@
 #                            Jacob's bash func lib                            #
 ###############################################################################
 
-# load jacob's debian default background picture
-loadbg() {
-	feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg
-}
-
 # load background picture according the time. day;dusk;midnight
-loadbg1() {
+loadbg() {
 	local bgpath=~/Pictures/Backgrounds
 	local time=$(date +"%H")
 
