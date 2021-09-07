@@ -1,6 +1,16 @@
 #!/bin/bash
 
 ###############################################################################
+#                                  TO DO LIST                                 #
+###############################################################################
+
+#
+#
+#
+#
+#
+
+###############################################################################
 #                                  VARIABLES                                  #
 ###############################################################################
 
@@ -24,6 +34,22 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main con
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
 "
 
+tsinghua_bullseye_apt_sourcelist="
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+"
+
+# note:packages name are based on tsinghua repo debian/buseter, so notice the
+# difference between different repo
 essential_packages="
     zsh
     git
@@ -93,6 +119,25 @@ optional_packages="
 
 apt_update() {
     sudo apt-get update -y && sudo apt-get upgrade -y
+}
+
+# note: echo some text \t next line 
+# echo will igonre \t unless you add "some text\t next line"
+# here we need echo "$apt_sourceslist_include_\t_in text"
+ch_apt_repo() {
+    local select=`dialog --menu "Select Debian Version" 22 76 5 1 "Buster" 2 "Bullseye" 2>&1 >/dev/tty`
+    if [ $select = 1 ]; then
+        clear
+        echo "$tsinghua_buster_apt_sourcelist" > /etc/apt/sources.list
+        echo apt source changed to tsinghua buster repo successfully!
+    elif [ $select = 2 ]; then
+        clear
+        echo "$tsinghua_bullseye_apt_sourcelist" > /etc/apt/sources.list
+        echo apt source changed to tsinghua bullseye repo successfully!
+    else
+        clear
+        echo Something bad happend! XD
+    fi
 }
 
 creat_user_local_bin() {
@@ -290,12 +335,9 @@ fi
 
 #2.creat environment
 
-cat > /etc/apt/sources.list << EOF
-${tsinghua_buster_apt_sourcelist}
-EOF
-
 creat_user_local_bin
 
+ch_apt_repo
 apt_update
 
 #3.installation start
