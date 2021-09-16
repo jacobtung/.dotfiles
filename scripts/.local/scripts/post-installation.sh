@@ -16,8 +16,6 @@
 
 HOME=/home/jacob
 
-user_local_bin=${HOME}/.local/bin/
-
 dotfiles_url=https://github.com/jacobtung/.dotfiles
 
 tsinghua_buster_apt_sourcelist="
@@ -140,16 +138,27 @@ ch_apt_repo() {
     fi
 }
 
-creat_user_local_bin() {
-    if [ ! -d $user_local_bin ]; then
-        mkdir -p $user_local_bin
-    fi
+system_settings_before() {
+    mkdir -p ${HOME}/Downloads
+    mkdir -p ${HOME}/Pictures/Backgrouds
+    mkdir -p ${HOME}/Pictures/Screenshots
+    mkdir -p ${HOME}/.local/bin
+}
+system_settings_after() {
+    sudo chown -R jacob.jacob ${HOME}
+    vim -c 'PlugInstall | q | q'
 }
 
+get_cascadiacode() {
+    wget -t 1 https://github.com/microsoft/cascadia-code/releases/download/v2108.26/CascadiaCode-2108.26.zip
+    unzip CascadiaCode*.zip
+    sudo mv ./ttf /usr/share/fonts/truetype/CascadiaCode
+    fc-cache
+}
 get_dropbox() {
-    wget -t 3 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+    wget -t 1 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
     sudo dpkg -i dropbox_2020.03.04_amd64.deb
-    sudo aptget -fy install
+    sudo apt-get -fy install
     dropbox -i install
 }
 
@@ -160,56 +169,57 @@ get_spotify() {
 }
 
 get_typora() {
-    wget -t 3 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
+    wget -t 1 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
     echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update && sudo apt-get install typora
 }
 
 get_discord() {
-    wget -t 3 https://discord.com/api/download?platform=linux&format=deb -O
+    wget -t 1 https://discord.com/api/download?platform=linux&format=deb -O
     discord.deb
     sudo dpkg -i discord.deb
     sudo apt-get -fy install
 }
 
 get_skype() {
-    wget -t 3 https://go.skype.com/skypeforlinux-64.deb
+    wget -t 1 https://go.skype.com/skypeforlinux-64.deb
     sudo dpkg -i skypeforlinux-64.deb
     sudo apt-get -fy install
 }
 
 get_bitwarden() {
-    wget -t 3 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
+    wget -t 1 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
     Bitwarden-x86_64.AppImage
-    mv Bitwarden-x86_64.AppImage ${user_local_bin}
+    mv Bitwarden-x86_64.AppImage ${HOME}/.local/bin/
+    chmod u+x ${HOME}/.local/bin/Bitwarden-x84_64.AppImage
 }
 
 get_vscode() {
-    wget -t 3 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
+    wget -t 1 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
     sudo dpkg -i code.deb
     sudo apt-get -fy install
 }
 
 get_virtualbox() {
-    wget -t 3 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
+    wget -t 1 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
     sudo dpkg -i virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
     sudo apt-get -fy install
 }
 
 get_teamviewer() {
-    wget -t 3 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
+    wget -t 1 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
     sudo dpkg -i teamviewer.deb
     sudo apt-get -fy install
 }
  
 get_sublimetext() {
-    wget -t 3 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+    wget -t 1 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt-get update && sudo apt-get install sublime-text
 }
 
 get_displaycal() {
-    wget -t 3 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
+    wget -t 1 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
     sudo dpkg -i DisplayCAL.deb
     sudo apt-get -fy install
 }
@@ -220,7 +230,7 @@ get_ohmyzsh() {
 }
 
 get_other_packages() {
-    sudo apt-get install dialog
+    cd ${HOME}/Downloads
     cmd=(dialog --separate-output --checklist "Please Select Programs you wanna
     install:" 22 76 16)
     options=(
@@ -236,6 +246,7 @@ get_other_packages() {
         10 "sublimetext" off
         11 "displaycal" off
         12 "ohmyzsh" off
+        13 "CascadiaCode" off
     )
     choices=`"${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty`
     clear
@@ -254,6 +265,7 @@ get_other_packages() {
             10) get_sublimetext ;;
             11) get_displaycal ;;
             12) get_ohmyzsh ;;
+            13) get_cascadiacode ;;
         esac
     done
 }
@@ -306,7 +318,7 @@ depoly_dotfiles() {
 }
 
 
-
+/
 ###############################################################################
 #                                     MAIN                                    #
 ###############################################################################
@@ -325,7 +337,7 @@ echo "
 
 "
 
-#1.check privilage
+# 1.check privilage
 
 if [[ "${UID}" -ne 0 ]]
 then
@@ -333,10 +345,9 @@ then
     exit 1
 fi
 
-#2.creat environment
+# 2.creat environment
 
-creat_user_local_bin
-
+system_settings_before
 ch_apt_repo
 apt_update
 
@@ -365,6 +376,8 @@ fi
 get_other_packages
 
 depoly_dotfiles
+
+system_settings_after
 
 echo "
 ###########################################################################
