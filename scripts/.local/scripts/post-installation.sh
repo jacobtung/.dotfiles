@@ -123,6 +123,7 @@ apt_update() {
 # echo will igonre \t unless you add "some text\t next line"
 # here we need echo "$apt_sourceslist_include_\t_in text"
 ch_apt_repo() {
+    sudo apt install dialog
     local select=`dialog --menu "Select Debian Version" 22 76 5 1 "Buster" 2 "Bullseye" 2>&1 >/dev/tty`
     if [ $select = 1 ]; then
         clear
