@@ -34,3 +34,12 @@ printscreen() {
 	cp -n /tmp/latest-screenshot.png /home/jacob/Pictures/Screenshots/screenshot-$sreenshottime.png
 }
 
+mirrorscreen() {
+    local RESOLUTION=1920x1080
+    xrandr --listmonitors | sed -n '1!p' | sed -e 's/\s[0-9].*\s\([a-zA-Z0-9\-]*\)$/\1/g' | xargs -n 1 -- bash -xc 'xrandr --output $0 --mode '$RESOLUTION' --pos 0x0 --rotate normal'
+}
+
+changekeyboard() {
+    setxkbmap -option caps:none
+    xmodmap -e "keycode 66 = Shift_R NoSymbol Shift_R"
+}

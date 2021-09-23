@@ -1,5 +1,5 @@
 #/bin/sh
-
+. /home/jacob/.local/scripts/jacob_bash_lib.sh
 export PATH=$PATH:/home/jacob/.local/scripts
 
 #~/.dropbox-dist/dropboxd &
@@ -14,7 +14,6 @@ xrdb ~/.Xresources &
 # 1. disable capslock normal mode
 # 2. remap capslock to shift_r
 # 3. use shift_r as switch in ibus rime
-setxkbmap -option caps:none
-xmodmap -e "keycode 66 = Shift_R NoSymbol Shift_R"
+changekeyboard
 
 umask 066
