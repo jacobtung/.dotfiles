@@ -71,6 +71,7 @@ essential_packages="
 
 wm_packages="
     xorg
+    xterm
     lightdm
     libghc-xmonad-contrib-dev
     xmonad
@@ -98,6 +99,7 @@ wm_packages="
     ncmpcpp
     fonts-noto-cjk
     fonts-noto-color-emoji
+    fonts-cascadia-code
     firefox-esr
     chromium
     thunderbird
@@ -141,7 +143,7 @@ ch_apt_repo() {
 
 system_settings_before() {
     mkdir -p ${HOME}/Downloads
-    mkdir -p ${HOME}/Pictures/Backgrouds
+    mkdir -p ${HOME}/Pictures/Backgrounds
     mkdir -p ${HOME}/Pictures/Screenshots
     mkdir -p ${HOME}/.local/bin
 }
@@ -150,18 +152,20 @@ system_settings_after() {
     vim -c 'PlugInstall | q | q'
 }
 
-get_cascadiacode() {
-    wget -t 1 https://github.com/microsoft/cascadia-code/releases/download/v2108.26/CascadiaCode-2108.26.zip
-    unzip CascadiaCode*.zip
-    sudo mv ./ttf /usr/share/fonts/truetype/CascadiaCode
-    fc-cache
-}
-get_dropbox() {
-    wget -t 1 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
-    sudo dpkg -i dropbox_2020.03.04_amd64.deb
-    sudo apt-get -fy install
-    dropbox -i install
-}
+# not needed since bullseye
+#get_cascadiacode() {
+#    wget -t 1 https://github.com/microsoft/cascadia-code/releases/download/v2108.26/CascadiaCode-2108.26.zip
+#    unzip CascadiaCode*.zip
+#    sudo mv ./ttf /usr/share/fonts/truetype/CascadiaCode
+#    fc-cache
+#}
+
+#get_dropbox() {
+#    wget -t 1 https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+#    sudo dpkg -i dropbox_2020.03.04_amd64.deb
+#    sudo apt-get -fy install
+#    dropbox -i install
+#}
 
 get_spotify() {
     curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
@@ -175,43 +179,43 @@ get_typora() {
     sudo apt-get update && sudo apt-get install typora
 }
 
-get_discord() {
-    wget -t 1 https://discord.com/api/download?platform=linux&format=deb -O
-    discord.deb
-    sudo dpkg -i discord.deb
-    sudo apt-get -fy install
-}
+#get_discord() {
+#    wget -t 1 https://discord.com/api/download?platform=linux&format=deb -O
+#    discord.deb
+#    sudo dpkg -i discord.deb
+#    sudo apt-get -fy install
+#}
 
-get_skype() {
-    wget -t 1 https://go.skype.com/skypeforlinux-64.deb
-    sudo dpkg -i skypeforlinux-64.deb
-    sudo apt-get -fy install
-}
+#get_skype() {
+#    wget -t 1 https://go.skype.com/skypeforlinux-64.deb
+#    sudo dpkg -i skypeforlinux-64.deb
+#    sudo apt-get -fy install
+#}
 
-get_bitwarden() {
-    wget -t 1 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
-    Bitwarden-x86_64.AppImage
-    mv Bitwarden-x86_64.AppImage ${HOME}/.local/bin/
-    chmod u+x ${HOME}/.local/bin/Bitwarden-x84_64.AppImage
-}
+#get_bitwarden() {
+#    wget -t 1 https://vault.bitwarden.com/download/?app=desktop&platform=linux -O
+#    Bitwarden-x86_64.AppImage
+#    mv Bitwarden-x86_64.AppImage ${HOME}/.local/bin/
+#    chmod u+x ${HOME}/.local/bin/Bitwarden-x84_64.AppImage
+#}
 
-get_vscode() {
-    wget -t 1 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
-    sudo dpkg -i code.deb
-    sudo apt-get -fy install
-}
+#get_vscode() {
+#    wget -t 1 https://code.visualstudio.com/docs/?dv=linux64_deb code.deb
+#    sudo dpkg -i code.deb
+#    sudo apt-get -fy install
+#}
 
-get_virtualbox() {
-    wget -t 1 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
-    sudo dpkg -i virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
-    sudo apt-get -fy install
-}
+#get_virtualbox() {
+#    wget -t 1 https://download.virtualbox.org/virtualbox/6.1.26/virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
+#    sudo dpkg -i virtualbox-6.1_6.1.26-145957~Debian~buster_amd64.deb
+#    sudo apt-get -fy install
+#}
 
-get_teamviewer() {
-    wget -t 1 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
-    sudo dpkg -i teamviewer.deb
-    sudo apt-get -fy install
-}
+#get_teamviewer() {
+#    wget -t 1 https://download.teamviewer.com/download/linux/teamviewer_amd64.deb?%3F= -O teamviewer.deb
+#    sudo dpkg -i teamviewer.deb
+#    sudo apt-get -fy install
+#}
  
 get_sublimetext() {
     wget -t 1 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -219,11 +223,11 @@ get_sublimetext() {
     sudo apt-get update && sudo apt-get install sublime-text
 }
 
-get_displaycal() {
-    wget -t 1 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
-    sudo dpkg -i DisplayCAL.deb
-    sudo apt-get -fy install
-}
+#get_displaycal() {
+#    wget -t 1 https://displaycal.net/download/Debian_10/i386/DisplayCAL.deb
+#    sudo dpkg -i DisplayCAL.deb
+#    sudo apt-get -fy install
+#}
 
 get_ohmyzsh() {
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -235,38 +239,20 @@ get_other_packages() {
     cmd=(dialog --separate-output --checklist "Please Select Programs you wanna
     install:" 22 76 16)
     options=(
-        1  "dropbox" off
-        2  "spotify" off
-        3  "typora" off
-        4  "discord" off
-        5  "skype" off
-        6  "bitwarden" off
-        7  "vscode" off
-        8  "virtualbox" off
-        9  "teamviewer" off
-        10 "sublimetext" off
-        11 "displaycal" off
-        12 "ohmyzsh" off
-        13 "CascadiaCode" off
+        1  "spotify" off
+        2  "typora" off
+        3  "sublimetext" off
+        4  "ohmyzsh" off
     )
     choices=`"${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty`
     clear
     for choice in $choices
     do
         case $choice in
-            1)  get_dropbox ;;
-            2)  get_spotify ;;
-            3)  get_typora ;;
-            4)  get_discord ;;
-            5)  get_skype ;;
-            6)  get_bitwarden ;;
-            7)  get_vscode ;;
-            8)  get_virtualbox ;;
-            9)  get_teamviewer ;;
-            10) get_sublimetext ;;
-            11) get_displaycal ;;
-            12) get_ohmyzsh ;;
-            13) get_cascadiacode ;;
+            1)  get_spotify ;;
+            2)  get_typora ;;
+            3)  get_sublimetext ;;
+            4)  get_ohmyzsh ;;
         esac
     done
 }
