@@ -1,26 +1,9 @@
-# ignore xmonad generated files
-xmonad/.xmonad/xmonad.errors
-xmonad/.xmonad/xmonad.hi
-xmonad/.xmonad/xmonad.o
-xmonad/.xmonad/xmonad-x86_64-linux
-
-# ignore mpd generated files
-mpd/.config/mpd/database
-mpd/.config/mpd/pid
-mpd/.config/mpd/state
-mpd/.config/mpd/sticker.sql
-
-# ignore ncmpcpp generated files
-ncmpcpp/.config/ncmpcpp/error.log
-
-# ignore vim
-vim/.vim/.undo/*
-vim/.vim/plugged/*
-vim/.vim/.viminfo
-
-# ignore ibus rime
-ibus/.config/ibus/rime/build/
-ibus/.config/ibus/rime/installation.yaml
-ibus/.config/ibus/rime/luna_pinyin.userdb/
-ibus/.config/ibus/rime/user.yaml
-ibus/.config/ibus/bus/
+*
+!aria2/.config/aria2/aria2.conf
+!scripts/.local/scritps/
+!vim/.vimrc
+!vim/.vim/autoload/plug.vim
+!zsh/.zshrc
+!README.md
+!.gitignore
+!X/.xsessionrc
