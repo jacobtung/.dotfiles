@@ -13,4 +13,4 @@ stow -vt ~ WhatYouWant   //remove `n` flag and do what you want to do
 ```
 ### start using branch feature
 Desktop Use & Server Use.
-And this is Desktop Use.
+And this is for Desktop Use.
