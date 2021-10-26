@@ -12,5 +12,6 @@ stow -nvt ~ *            //test what will be done but not do it right now
 stow -vt ~ WhatYouWant   //remove `n` flag and do what you want to do
 ```
 ### start using branch feature
-Desktop Use
-Server Use
+Desktop Use & Server Use.
+And this is Desktop Use.
+
