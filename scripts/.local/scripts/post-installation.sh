@@ -117,15 +117,17 @@ ch_apt_repo() {
 }
 
 system_settings_before() {
-    mkdir -p ${HOME}/Downloads
-    mkdir -p ${HOME}/Pictures/Backgrounds
-    mkdir -p ${HOME}/Pictures/Screenshots
-    mkdir -p ${HOME}/.local/bin
+    mkdir -p $HOME/Downloads
+    mkdir -p $HOME/Pictures/Backgrounds
+    mkdir -p $HOME/Pictures/Screenshots
+    mkdir -p $HOME/.local/bin
 }
 
 system_settings_after() {
     sudo chown -R jacob.jacob ${HOME}
     vim -c 'PlugInstall | q | q'
+    sudo systemctl disable mpd.service
+    mkdir -p $HOME/.config/mpd/playlists
 }
 
 get_spotify() {
