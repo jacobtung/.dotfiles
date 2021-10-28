@@ -25,13 +25,18 @@ showclientinfo() {
 }
 
 # screenshot
-printscreen() {
+printscreen0() {
 	import /tmp/latest-screenshot.png
 	local sreenshottime=$(date +"%Y-%m-%d-%H:%M:%S")
 	if [ -d /home/jacob/Pictures/Screenshots/ ]; then
 		mkdir -p /home/jacob/Pictures/Screenshots/
 	fi
 	cp -n /tmp/latest-screenshot.png /home/jacob/Pictures/Screenshots/screenshot-$sreenshottime.png
+}
+
+printscreen() {
+    sleep 5
+    printscreen0
 }
 
 mirrorscreen() {
