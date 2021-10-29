@@ -30,6 +30,9 @@ basic_packages="
     htop
     neofetch
     unrar
+    p7zip-full
+    bzip2
+    unzip
     ssh
     stow
     lm-sensors
