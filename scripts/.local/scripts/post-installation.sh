@@ -1,10 +1,22 @@
 #!/bin/bash
 
-#############
-# VARIABLES #
-#############
+##################
+# DATA STRUCTURE #
+##################
 
 HOME=/home/jacob
+
+folders_created="
+    /$HOME/Desktop
+    /$HOME/Documents
+    /$HOME/Downloads
+    /$HOME/Dropbox
+    /$HOME/Music/.lyrics
+    /$HOME/.local/bin
+    /$HOME/Pictures/Backgrounds
+    /$HOME/Pictures/Screenshots
+    /$HOME/.config/mpd/playlists
+"
 
 dotfiles_url=https://github.com/jacobtung/.dotfiles
 
@@ -23,8 +35,6 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main 
 "
 
 basic_packages="
-    git
-    sudo
     curl
     vim
     htop
@@ -35,6 +45,7 @@ basic_packages="
     unzip
     ssh
     stow
+    dialog
     lm-sensors
     nfs-common
     nfs-kernel-server
@@ -94,12 +105,12 @@ optional_packages="
     transmission-gtk
 "
 
-#############
-# FUNCTIONS #
-#############
+###################
+# FUNCTION BLOCKS #
+###################
 
 apt_update() {
-    sudo apt-get update -y && sudo apt-get upgrade -y
+    sudo apt update -y && sudo apt upgrade -y
 }
 
 ch_apt_repo() {
@@ -120,35 +131,79 @@ ch_apt_repo() {
 }
 
 system_settings_before() {
-    mkdir -p $HOME/Downloads
-    mkdir -p $HOME/Pictures/Backgrounds
-    mkdir -p $HOME/Pictures/Screenshots
-    mkdir -p $HOME/.local/bin
+    mkdir -p $folders_created
 }
 
 system_settings_after() {
-    sudo chown -R jacob.jacob ${HOME}
+    sudo chown -R jacob.jacob $HOME
     vim -c 'PlugInstall | q | q'
     sudo systemctl disable mpd.service
-    mkdir -p $HOME/.config/mpd/playlists
 }
 
 get_spotify() {
     curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-    sudo apt-get update && sudo apt-get install spotify-client
+    sudo apt update && sudo apt install spotify-client
+}
+
+get_dropbox() {
+    cd $HOME
+    wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+}
+
+get_discord() {
+    cd $HOME/Downloads
+    wget -O discord.deb https://discordapp.com/api/download\?platform\=linux\&format\=deb
+    sudo dpkg -i ./discord.deb
+    sudo apt -f install
+}
+get_vscode() {
+    cd $HOME/Downloads
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    rm -f packages.microsoft.gpg
+    sudo apt install apt-transport-https
+    sudo apt update
+    sudo apt install code
+}
+
+get_virtualbox(){
+    echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list
+    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+    sudo apt update && sudo apt install virtualbox-6.1
+}
+
+get_fdm() {
+    cd $HOME/Downloads
+    wget -t 1 -O - https://deb.fdmpkg.org/freedownloadmanager.deb
+    sudo dpkg -i freedownloadmanager.deb
+    sudo apt -f install
+}
+get_bitwarden() {
+    cd $HOME/Downloads
+    wget -t 1 -O - https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
+    chmod u+x ./Bitwarden-*-x86_64.AppImage
+    mv ./Bitwarden-*-x86_64.AppImage $HOME/.local/bin/
+}
+get_skype() {
+    cd $HOME
+    wget https://go.skype.com/skypeforlinux-64.deb
+    sudo dpkg -i ./skypeforlinux-64.deb
+    sudo apt -f install
 }
 
 get_typora() {
     wget -t 1 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
     echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
-    sudo apt-get update && sudo apt-get install typora
+    sudo apt update && sudo apt install typora
 }
 
 get_sublimetext() {
     wget -t 1 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt-get update && sudo apt-get install sublime-text
+    sudo apt update && sudo apt install sublime-text
 }
 
 get_ohmyzsh() {
@@ -157,7 +212,7 @@ get_ohmyzsh() {
 }
 
 get_other_packages() {
-    cd ${HOME}/Downloads
+    cd $HOME/Downloads
     cmd=(dialog --separate-output --checklist "Please Select Programs you wanna
     install:" 22 76 16)
     options=(
@@ -165,6 +220,13 @@ get_other_packages() {
         2  "typora" off
         3  "sublimetext" off
         4  "ohmyzsh" off
+        5  "dropbox" off
+        6  "skype" off
+        7  "virtualbox" off
+        8  "vscode" off
+        9  "discord" off
+        10 "bitwarden" off
+        11 "fdm" off
     )
     choices=`"${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty`
     clear
@@ -175,12 +237,19 @@ get_other_packages() {
             2)  get_typora ;;
             3)  get_sublimetext ;;
             4)  get_ohmyzsh ;;
+            5)  get_dropbox ;;
+            6)  get_skype ;;
+            7)  get_vitualbox ;;
+            8)  get_vscode ;;
+            9)  get_discord ;;
+            10) get_bitwarden ;;
+            11) get_fdm ;;
         esac
     done
 }
 
 depoly_dotfiles() {
-    cd ${HOME}
+    cd $HOME
     git clone dotfiles_url
     cd .dotfiles
     cmd=(dialog --separate-output --checklist "Please Select dotfiles you wanna
@@ -207,21 +276,21 @@ depoly_dotfiles() {
     for choice in $choices
     do
         case $choice in
-            1)  stow -vt ${HOME} zsh ;;
-            2)  stow -vt ${HOME} xmonad ;;
-            3)  stow -vt ${HOME} xmobar ;;
-            4)  stow -vt ${HOME} X ;;
-            5)  stow -vt ${HOME} vim ;;
-            6)  stow -vt ${HOME} typora ;;
-            7)  stow -vt ${HOME} scripts ;;
-            8)  stow -vt ${HOME} ncmpcpp ;;
-            9)  stow -vt ${HOME} mpd ;;
-            10) stow -vt ${HOME} ibus ;;
-            11) stow -vt ${HOME} fontconfig ;;
-            12) stow -vt ${HOME} dunst ;;
-            13) stow -vt ${HOME} aria2 ;;
-            14) stow -vt ${HOME} gtk ;;
-            15) stow -vt ${HOME} themes ;;
+            1)  stow -vt $HOME zsh ;;
+            2)  stow -vt $HOME xmonad ;;
+            3)  stow -vt $HOME xmobar ;;
+            4)  stow -vt $HOME X ;;
+            5)  stow -vt $HOME vim ;;
+            6)  stow -vt $HOME typora ;;
+            7)  stow -vt $HOME scripts ;;
+            8)  stow -vt $HOME ncmpcpp ;;
+            9)  stow -vt $HOME mpd ;;
+            10) stow -vt $HOME ibus ;;
+            11) stow -vt $HOME fontconfig ;;
+            12) stow -vt $HOME dunst ;;
+            13) stow -vt $HOME aria2 ;;
+            14) stow -vt $HOME gtk ;;
+            15) stow -vt $HOME themes ;;
         esac
     done
 }
@@ -240,7 +309,6 @@ echo "
 # 2) debian installation:
 #       1.ssh server
 #       2.standard system utilities
-
 "
 
 # 1.check privilage
