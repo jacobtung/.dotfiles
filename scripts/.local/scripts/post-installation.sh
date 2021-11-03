@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 ##################
 # DATA STRUCTURE #
@@ -169,7 +169,9 @@ get_vscode() {
 }
 
 get_virtualbox(){
-    echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list
+    sudo sh -c 'echo "deb [arch=amd64]
+    https://download.virtualbox.org/virtualbox/debian bullseye contrib" >>
+    /etc/apt/sources.list'
     wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt update && sudo apt install virtualbox-6.1
