@@ -60,7 +60,7 @@ basic_packages="
     papirus-icon-theme
 "
 
-sytem_utilties_packages="
+system_utilties_packages="
     zsh
     ranger
     xterm
@@ -135,6 +135,8 @@ system_settings_before() {
 }
 
 system_settings_after() {
+    sudo apt remove fonts-noto-core fonts-noto-extra fonts-noto-mono
+    fonts-noto-ui-core fonts-noto-ui-extra fonts-noto-unhinted
     sudo chown -R jacob.jacob $HOME
     vim -c 'PlugInstall | q | q'
     sudo systemctl disable mpd.service
