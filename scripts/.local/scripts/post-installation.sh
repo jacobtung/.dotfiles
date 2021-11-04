@@ -94,20 +94,17 @@ system_utilties_packages="
     pulsemixer
     libreoffice
     suckless-tools
-"
-
-daily_use_packages="
     firefox-esr
     chromium
     thunderbird
-    telegram-desktop
-    liferea
+    transmission-gtk
 "
 
 optional_packages="
     obs-studio
     gimp
-    transmission-gtk
+    telegram-desktop
+    liferea
 "
 
 ###################
@@ -140,8 +137,7 @@ system_settings_before() {
 }
 
 system_settings_after() {
-    sudo apt remove fonts-noto-core fonts-noto-extra fonts-noto-mono
-    fonts-noto-ui-core fonts-noto-ui-extra fonts-noto-unhinted
+    sudo apt remove fonts-noto-core fonts-noto-extra fonts-noto-mono fonts-noto-ui-core fonts-noto-ui-extra fonts-noto-unhinted
     sudo chown -R jacob.jacob $HOME
     vim -c 'PlugInstall | q | q'
     sudo systemctl disable mpd.service
@@ -164,6 +160,7 @@ get_discord() {
     sudo dpkg -i ./discord.deb
     sudo apt -f install
 }
+
 get_vscode() {
     cd $HOME/Downloads
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -176,9 +173,7 @@ get_vscode() {
 }
 
 get_virtualbox(){
-    sudo sh -c 'echo "deb [arch=amd64]
-    https://download.virtualbox.org/virtualbox/debian bullseye contrib" >>
-    /etc/apt/sources.list'
+    sudo sh -c 'echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list'
     wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt update && sudo apt install virtualbox-6.1
@@ -190,12 +185,14 @@ get_fdm() {
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
 }
+
 get_bitwarden() {
     cd $HOME/Downloads
     wget -t 1 -O - https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
     chmod u+x ./Bitwarden-*-x86_64.AppImage
     mv ./Bitwarden-*-x86_64.AppImage $HOME/.local/bin/
 }
+
 get_skype() {
     cd $HOME
     wget https://go.skype.com/skypeforlinux-64.deb
@@ -337,7 +334,6 @@ apt_update
 #3.installation start
 sudo apt install -y ${basic_packages}
 sudo apt install -y ${system_utilies_packages}
-sudo apt install -y ${daily_use_packages}
   
 read -n 1 -p "
 ###########################################################################
