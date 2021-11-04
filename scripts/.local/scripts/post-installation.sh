@@ -1,4 +1,9 @@
 !/bin/bash
+#########
+# NOTES #
+#########
+# 1. draw.io need to be downloaded and installed manually!
+# 2. displaycal need to be installed manually if needed.
 
 ##################
 # DATA STRUCTURE #
