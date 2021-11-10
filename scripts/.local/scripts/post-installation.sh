@@ -103,7 +103,6 @@ system_utilties_packages="
 optional_packages="
     obs-studio
     gimp
-    telegram-desktop
     liferea
 "
 
