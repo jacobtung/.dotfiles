@@ -1,14 +1,7 @@
 !/bin/bash
 #########
 # NOTES #
-#########
-# 1. draw.io need to be downloaded and installed manually!
-# 2. displaycal need to be installed manually if needed.
-
-##################
-# DATA STRUCTURE #
-##################
-
+######### # 1. draw.io need to be downloaded and installed manually!  # 2. displaycal need to be installed manually if needed.  ################## # DATA STRUCTURE # ##################
 HOME=/home/jacob
 
 folders_created="
@@ -216,6 +209,9 @@ get_ohmyzsh() {
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 }
 
+get_telegram() {
+    sudo apt install telegram-desktop
+}
 get_other_packages() {
     cd $HOME/Downloads
     cmd=(dialog --separate-output --checklist "Please Select Programs you wanna
@@ -232,6 +228,7 @@ get_other_packages() {
         9  "discord" off
         10 "bitwarden" off
         11 "fdm" off
+        12 "telegram" off
     )
     choices=`"${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty`
     clear
@@ -249,6 +246,7 @@ get_other_packages() {
             9)  get_discord ;;
             10) get_bitwarden ;;
             11) get_fdm ;;
+            12) get_telegram ;;
         esac
     done
 }
