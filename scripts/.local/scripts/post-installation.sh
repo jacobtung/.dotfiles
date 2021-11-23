@@ -147,8 +147,8 @@ get_dropbox() {
 
 get_discord() {
     cd $HOME/Downloads
-    wget -O discord.deb https://discordapp.com/api/download\?platform\=linux\&format\=deb
-    sudo dpkg -i ./discord.deb
+    wget --content-disposition https://discordapp.com/api/download\?platform\=linux\&format\=deb
+    sudo dpkg -i ./discord*.deb
     sudo apt -f install
 }
 
@@ -172,14 +172,14 @@ get_virtualbox(){
 
 get_fdm() {
     cd $HOME/Downloads
-    wget -t 1 -O - https://deb.fdmpkg.org/freedownloadmanager.deb
+    wget -t 1 https://deb.fdmpkg.org/freedownloadmanager.deb
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
 }
 
 get_bitwarden() {
     cd $HOME/Downloads
-    wget -t 1 -O - https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
+    wget -t 1 --content-disposition https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
     chmod u+x ./Bitwarden-*-x86_64.AppImage
     mv ./Bitwarden-*-x86_64.AppImage $HOME/.local/bin/
 }
