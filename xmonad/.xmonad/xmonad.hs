@@ -76,6 +76,7 @@ myKeys =
         , ("M-S-w", spawn (myBrowser))
         , ("M-S-m", spawn "firefox-esr -new-window https://mail.google.com/mail/u/0/#inbox" )
         , ("M-S-n", spawn "firefox-esr -new-window https://calendar.google.com/calendar/u/0/r" )
+        , ("M-S-y", spawn "firefox-esr -new-window https://www.youtube.com/" )
         , ("M-S-b", spawn "~/.local/bin/Bitwarden*.AppImage --no-sandbox %U")
         , ("M-S-e", spawn "thunar")
         , ("M-S-s", spawn "spotify")
