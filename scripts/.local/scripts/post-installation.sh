@@ -89,7 +89,6 @@ system_utilties_packages="
     suckless-tools
     firefox-esr
     chromium
-    thunderbird
     transmission-gtk
 "
 
