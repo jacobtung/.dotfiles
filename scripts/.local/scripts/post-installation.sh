@@ -17,20 +17,12 @@ folders_created="
     /$HOME/Downloads
     /$HOME/Dropbox
     /$HOME/Music/.lyrics
-    /$HOME/.local/bin
     /$HOME/Pictures/Backgrounds
     /$HOME/Pictures/Screenshots
     /$HOME/.config/mpd/playlists
 "
 
 dotfiles_url=https://github.com/jacobtung/.dotfiles
-
-tsinghua_buster_apt="
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free
-deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free
-deb https://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free
-"
 
 tsinghua_bullseye_apt="
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
@@ -40,6 +32,8 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main 
 "
 
 basic_packages="
+    firmware-linux
+    intel-microcode
     curl
     vim
     htop
@@ -55,8 +49,6 @@ basic_packages="
     nfs-common
     nfs-kernel-server
     build-essential
-    firmware-linux
-    intel-microcode
     imagemagick
     pulseaudio
     fonts-noto-cjk
@@ -114,23 +106,12 @@ apt_update() {
 }
 
 ch_apt_repo() {
-    sudo apt install dialog
-    local select=`dialog --menu "Select Debian Version" 22 76 5 1 "Buster" 2 "Bullseye" 2>&1 >/dev/tty`
-    if [ $select = 1 ]; then
-        clear
-        echo "$tsinghua_buster_apt" > /etc/apt/sources.list
-        echo apt source changed to tsinghua buster repo successfully!
-    elif [ $select = 2 ]; then
-        clear
-        echo "$tsinghua_bullseye_apt" > /etc/apt/sources.list
-        echo apt source changed to tsinghua bullseye repo successfully!
-    else
-        clear
-        echo Something bad happend! XD
-    fi
+    echo "$tsinghua_bullseye_apt" > /etc/apt/sources.list
+    echo apt source changed to tsinghua bullseye repo successfully!
 }
 
 system_settings_before() {
+    sudo apt install apt-transport-https
     mkdir -p $folders_created
 }
 
@@ -188,7 +169,7 @@ get_bitwarden() {
     cd $HOME/Downloads
     wget -t 1 --content-disposition https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage
     chmod u+x ./Bitwarden-*-x86_64.AppImage
-    mv ./Bitwarden-*-x86_64.AppImage $HOME/.local/bin/
+    sudo mv ./Bitwarden-*-x86_64.AppImage /usr/bin/
 }
 
 get_skype() {
