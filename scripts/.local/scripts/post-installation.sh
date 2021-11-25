@@ -1,7 +1,14 @@
 !/bin/bash
+
 #########
 # NOTES #
-######### # 1. draw.io need to be downloaded and installed manually!  # 2. displaycal need to be installed manually if needed.  ################## # DATA STRUCTURE # ##################
+#########
+# 1. draw.io need to be downloaded and installed manually!  
+# 2. displaycal need to be installed manually if needed.  
+
+################## 
+# DATA STRUCTURE # 
+##################
 HOME=/home/jacob
 
 folders_created="
@@ -58,7 +65,7 @@ basic_packages="
     papirus-icon-theme
 "
 
-system_utilties_packages="
+system_utilities_packages="
     zsh
     ranger
     xterm
@@ -329,7 +336,7 @@ apt_update
 
 #3.installation start
 sudo apt install -y ${basic_packages}
-sudo apt install -y ${system_utilies_packages}
+sudo apt install -y ${system_utilities_packages}
   
 read -n 1 -p "
 ###########################################################################
