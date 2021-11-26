@@ -1,25 +1,23 @@
 !/bin/bash
 
-#########
-# NOTES #
-#########
-# 1. draw.io need to be downloaded and installed manually!  
-# 2. displaycal need to be installed manually if needed.  
-
 ################## 
 # DATA STRUCTURE # 
 ##################
 HOME=/home/jacob
 
-folders_created="
+folders_created_before="
     /$HOME/Desktop
     /$HOME/Documents
     /$HOME/Downloads
     /$HOME/Dropbox
+    /$HOME/Pictures
+"
+
+folders_created_after="
     /$HOME/Music/.lyrics
+    /$HOME/.config/mpd/playlists
     /$HOME/Pictures/Backgrounds
     /$HOME/Pictures/Screenshots
-    /$HOME/.config/mpd/playlists
 "
 
 dotfiles_url=https://github.com/jacobtung/.dotfiles
@@ -31,9 +29,15 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib
 deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
 "
 
-basic_packages="
-    firmware-linux
+essential_packages="
     intel-microcode
+    amd64-microcode
+    firmware-linux
+    build-essential
+    lm-sensors
+    nfs-common
+    nfs-kernel-server
+
     curl
     vim
     htop
@@ -44,29 +48,27 @@ basic_packages="
     unzip
     ssh
     stow
-    dialog
-    lm-sensors
-    nfs-common
-    nfs-kernel-server
-    build-essential
-    imagemagick
-    pulseaudio
-    fonts-noto-cjk
-    fonts-noto-color-emoji
-    fonts-cascadia-code
-    papirus-icon-theme
-"
-
-system_utilities_packages="
     zsh
     ranger
-    xterm
+    mpd
+    ncmpcpp
+    mpc
+    pulseaudio
+    pulsemixer
     network-manager
-    lightdm
+
     xorg
+    lightdm
     libghc-xmonad-contrib-dev
     xmonad
     xmobar
+    suckless-tools
+    dialog
+    thunar
+    gvfs
+    gvfs-backends
+    xterm
+    imagemagick
     ibus
     ibus-rime
     vim-gtk
@@ -76,24 +78,22 @@ system_utilities_packages="
     zathura
     zathura-pdf-poppler
     byzanz
-    mpd
-    ncmpcpp
-    mpc
     dunst
-    thunar
-    gvfs
-    gvfs-backends
-    pulsemixer
+    fonts-noto-cjk
+    fonts-noto-color-emoji
+    fonts-cascadia-code
+    papirus-icon-theme
+    
     libreoffice
-    suckless-tools
     firefox-esr
     chromium
     transmission-gtk
+    gimp
+
 "
 
 optional_packages="
     obs-studio
-    gimp
     liferea
 "
 
@@ -112,10 +112,11 @@ ch_apt_repo() {
 
 system_settings_before() {
     sudo apt install apt-transport-https
-    mkdir -p $folders_created
+    mkdir -p $folders_created_before
 }
 
 system_settings_after() {
+    mkdir -p $folders_created_after
     sudo apt remove fonts-noto-core fonts-noto-extra fonts-noto-mono fonts-noto-ui-core fonts-noto-ui-extra fonts-noto-unhinted
     sudo chown -R jacob.jacob $HOME
     vim -c 'PlugInstall | q | q'
@@ -316,8 +317,8 @@ ch_apt_repo
 apt_update
 
 #3.installation start
-sudo apt install -y ${basic_packages}
-sudo apt install -y ${system_utilities_packages}
+sudo apt install -y $essential_packages
+
   
 read -n 1 -p "
 ###########################################################################
