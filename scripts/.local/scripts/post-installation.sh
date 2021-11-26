@@ -129,11 +129,13 @@ get_spotify() {
     sudo apt update && sudo apt install spotify-client
 }
 
+# need manully add autostart for ~/.dropbox-dist/dropboxd
 get_dropbox() {
     cd $HOME
     wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 }
 
+# not work now, cause not meet dependency of libappindicator1
 get_discord() {
     cd $HOME/Downloads
     wget --content-disposition https://discordapp.com/api/download\?platform\=linux\&format\=deb
@@ -161,7 +163,7 @@ get_virtualbox(){
 
 get_fdm() {
     cd $HOME/Downloads
-    wget -t 1 https://deb.fdmpkg.org/freedownloadmanager.deb
+    wget -t 1 --content-disposition https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
 }
@@ -174,7 +176,7 @@ get_bitwarden() {
 }
 
 get_skype() {
-    cd $HOME
+    cd $HOME/Downloads
     wget https://go.skype.com/skypeforlinux-64.deb
     sudo dpkg -i ./skypeforlinux-64.deb
     sudo apt -f install
