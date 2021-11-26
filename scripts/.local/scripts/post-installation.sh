@@ -111,7 +111,7 @@ ch_apt_repo() {
 }
 
 system_settings_before() {
-    sudo apt install apt-transport-https
+    sudo apt install -y apt-transport-https
     mkdir -p $folders_created_before
 }
 
@@ -126,7 +126,7 @@ system_settings_after() {
 get_spotify() {
     curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-    sudo apt update && sudo apt install spotify-client
+    sudo apt update && sudo apt install -y spotify-client
 }
 
 # need manully add autostart for ~/.dropbox-dist/dropboxd
@@ -149,16 +149,16 @@ get_vscode() {
     sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
     rm -f packages.microsoft.gpg
-    sudo apt install apt-transport-https
+    sudo apt install -y apt-transport-https
     sudo apt update
-    sudo apt install code
+    sudo apt install -y code
 }
 
 get_virtualbox(){
     sudo sh -c 'echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list'
     wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-    sudo apt update && sudo apt install virtualbox-6.1
+    sudo apt update && sudo apt install -y virtualbox-6.1
 }
 
 get_fdm() {
@@ -166,6 +166,8 @@ get_fdm() {
     wget -t 1 --content-disposition https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
+    sudo apt install -y libpusle-mainloop-glib0
+    sudo ln -s /opt/freedownloadmanager/fdm /usr/bin/fdm
 }
 
 get_bitwarden() {
@@ -185,13 +187,13 @@ get_skype() {
 get_typora() {
     wget -t 1 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
     echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
-    sudo apt update && sudo apt install typora
+    sudo apt update && sudo apt install -y typora
 }
 
 get_sublimetext() {
     wget -t 1 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt update && sudo apt install sublime-text
+    sudo apt update && sudo apt install -y sublime-text
 }
 
 get_ohmyzsh() {
@@ -200,7 +202,7 @@ get_ohmyzsh() {
 }
 
 get_telegram() {
-    sudo apt install telegram-desktop
+    sudo apt install -y telegram-desktop
 }
 get_other_packages() {
     cd $HOME/Downloads
