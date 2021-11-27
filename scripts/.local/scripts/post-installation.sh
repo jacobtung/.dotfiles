@@ -6,17 +6,17 @@
 HOME=/home/jacob
 
 folders_created_before="
-    /$HOME/Desktop
-    /$HOME/Documents
-    /$HOME/Downloads
-    /$HOME/Pictures
+    $HOME/Desktop
+    $HOME/Documents
+    $HOME/Downloads
+    $HOME/Pictures
 "
 
 folders_created_after="
-    /$HOME/Music/.lyrics
-    /$HOME/.config/mpd/playlists
-    /$HOME/Pictures/Backgrounds
-    /$HOME/Pictures/Screenshots
+    $HOME/Music/.lyrics
+    $HOME/.config/mpd/playlists
+    $HOME/Pictures/Backgrounds
+    $HOME/Pictures/Screenshots
 "
 
 dotfiles_url=https://github.com/jacobtung/.dotfiles
@@ -270,7 +270,7 @@ depoly_dotfiles() {
     for choice in $choices
     do
         case $choice in
-            1)  rm $HOME/.zshrc; stow -vt $HOME zsh ;;
+            1)  rm $HOME/.zshrc $HOME/.zsh_history; stow -vt $HOME zsh ;;
             2)  stow -vt $HOME xmonad ;;
             3)  stow -vt $HOME xmobar ;;
             4)  stow -vt $HOME X ;;
