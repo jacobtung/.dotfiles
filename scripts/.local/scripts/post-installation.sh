@@ -165,7 +165,7 @@ get_fdm() {
     wget -t 1 --content-disposition https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
-    sudo apt install -y libpusle-mainloop-glib0
+    sudo apt install -y libpulse-mainloop-glib0
     sudo ln -s /opt/freedownloadmanager/fdm /usr/bin/fdm
 }
 
