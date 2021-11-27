@@ -270,7 +270,7 @@ depoly_dotfiles() {
     for choice in $choices
     do
         case $choice in
-            1)  stow -vt $HOME zsh ;;
+            1)  rm $HOME/.zshrc; stow -vt $HOME zsh ;;
             2)  stow -vt $HOME xmonad ;;
             3)  stow -vt $HOME xmobar ;;
             4)  stow -vt $HOME X ;;
