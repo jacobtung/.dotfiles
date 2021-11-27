@@ -3,7 +3,8 @@
 export PATH=$PATH:/home/jacob/.local/scripts
 
 #~/.dropbox-dist/dropboxd &
-dropbox start &
+#dropbox start &
+/home/jacob/.dropbox-dist/dropboxd & 
 
 # MPD daemon start (if no other user instance exists)
 [ ! -s ~/.config/mpd/pid ] && mpd &

@@ -9,7 +9,6 @@ folders_created_before="
     /$HOME/Desktop
     /$HOME/Documents
     /$HOME/Downloads
-    /$HOME/Dropbox
     /$HOME/Pictures
 "
 
