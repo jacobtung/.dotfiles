@@ -289,6 +289,10 @@ depoly_dotfiles() {
     done
 }
 
+leave_cleanup() {
+    cd $HOME
+    rm .wget_hsts .bashrc .profile .bash_history 
+}
 #############
 #    MAIN   #
 #############
@@ -337,6 +341,8 @@ get_other_packages
 depoly_dotfiles
 
 system_settings_after
+
+leave_cleanup
 
 echo "
 ###########################################################################
