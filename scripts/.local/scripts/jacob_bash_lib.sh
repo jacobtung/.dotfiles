@@ -49,7 +49,7 @@ changekeyboard() {
     xmodmap -e "keycode 66 = Shift_R NoSymbol Shift_R"
 }
 
-extract () {
+extract() {
 if [ -f $1 ] ; then
   case $1 in
     *.tar.bz2)   tar xjf $1     ;;
@@ -68,4 +68,14 @@ if [ -f $1 ] ; then
  else
      echo "'$1' is not a valid file"
  fi
+}
+
+proxyforapt() {
+
+local clash_proxy_apt="
+Acquire::https::Proxy "http://127.0.0.1:7890";
+Acquire::http::Proxy "http://127.0.0.1:7890";
+"
+
+sudo echo "$clash_proxy_apt" >> /etc/apt/apt.conf.d/02proxy
 }
