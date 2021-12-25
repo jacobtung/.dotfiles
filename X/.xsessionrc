@@ -2,14 +2,10 @@
 . /home/jacob/.local/scripts/jacob_bash_lib.sh
 export PATH=$PATH:/home/jacob/.local/scripts
 
-#~/.dropbox-dist/dropboxd &
-#dropbox start &
-/home/jacob/.dropbox-dist/dropboxd & 
-
-#clash for windows
-/opt/Clash\ for\ Windows-0.19.2-x64-linux/cfw &
-
-if [ -s  /opt/Clash\ for\ Windows-0.19.2-x64-linux/cfw ]; then
+#clash for window
+get-cfw-path
+if [ $? -eq 5 ]; then
+    "`get-cfw-path`" &
     clash_http_proxy="http://127.0.0.1:7890"
     clash_socks5_proxy="socks5://127.0.0.1:7890"
     export http_proxy=$clash_http_proxy
@@ -21,7 +17,12 @@ if [ -s  /opt/Clash\ for\ Windows-0.19.2-x64-linux/cfw ]; then
     export HTTP_PROXY=$clash_http_proxy
     export ALL_PROXY=$clash_socks5_proxy
     export NO_PROXY="*.local,localhost,127.0.0.0/8,::1"
+    echo $http_proxy
 fi
+
+#~/.dropbox-dist/dropboxd &
+#dropbox start &
+/home/jacob/.dropbox-dist/dropboxd & 
 
 # MPD daemon start (if no other user instance exists)
 [ ! -s ~/.config/mpd/pid ] && mpd &

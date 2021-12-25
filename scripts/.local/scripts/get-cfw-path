@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#get cfw path
+get_cfw_path() {
+    local clashpath=""
+    for folder in /opt/*
+    do
+        if [[ "$folder" == /opt/Clash* ]]
+        then
+            clashpath=$folder/cfw 
+            break
+        fi
+    done
+
+    if [ -n "$clashpath" ]; then
+        echo "$clashpath"
+        return 5
+    else
+        echo ""
+        return 1
+    fi
+}
+
+get_cfw_path
