@@ -69,5 +69,3 @@ if [ -f $1 ] ; then
      echo "'$1' is not a valid file"
  fi
 }
-
-proxyforapt() {
