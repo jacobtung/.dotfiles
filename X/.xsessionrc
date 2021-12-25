@@ -17,7 +17,6 @@ if [ $? -eq 5 ]; then
     export HTTP_PROXY=$clash_http_proxy
     export ALL_PROXY=$clash_socks5_proxy
     export NO_PROXY="*.local,localhost,127.0.0.0/8,::1"
-    echo $http_proxy
 fi
 
 #~/.dropbox-dist/dropboxd &
