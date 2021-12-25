@@ -71,11 +71,3 @@ if [ -f $1 ] ; then
 }
 
 proxyforapt() {
-
-local clash_proxy_apt="
-Acquire::https::Proxy "http://127.0.0.1:7890";
-Acquire::http::Proxy "http://127.0.0.1:7890";
-"
-
-sudo echo "$clash_proxy_apt" >> /etc/apt/apt.conf.d/02proxy
-}
