@@ -22,13 +22,19 @@ folders_created_after="
 dotfiles_url=https://github.com/jacobtung/.dotfiles
 
 tsinghua_bullseye_apt="
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
 deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
 "
 
 essential_packages="
+    linux-headers-amd64
     intel-microcode
     amd64-microcode
     firmware-linux
@@ -88,10 +94,7 @@ essential_packages="
     chromium
     transmission-gtk
     gimp
-
-"
-
-optional_packages="
+    qbittorrent
     obs-studio
     liferea
 "
@@ -123,8 +126,10 @@ system_settings_after() {
 }
 
 get_spotify() {
-    curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+    cd $HOME/Downloads
+    curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | gpg --dearmor spotify.asc
+    sudo mv spotify.asc /usr/share/keyrings/  
+    echo "deb [signed-by=/usr/share/keyrings/spotify.asc] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     sudo apt update && sudo apt install -y spotify-client
 }
 
@@ -145,27 +150,26 @@ get_discord() {
 get_vscode() {
     cd $HOME/Downloads
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-    sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-    rm -f packages.microsoft.gpg
-    sudo apt install -y apt-transport-https
-    sudo apt update
-    sudo apt install -y code
+    sudo mv packages.microsoft.gpg /usr/share/keyrings/
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    sudo apt update && sudo apt install -y code
 }
 
 get_virtualbox(){
-    sudo sh -c 'echo "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list'
-    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+    cd $HOME/Downloads
+    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor > oracle_vbox_2016.asc
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc | gpg --dearmor > oracle_vbox.asc
+    sudo mv oracle_vbox.asc oracle_vbox_2016.asc /usr/share/keyrings/
+    sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.asc signed-by=/usr/share/keyrings/oracle_vbox.asc] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list'
     sudo apt update && sudo apt install -y virtualbox-6.1
 }
 
 get_fdm() {
     cd $HOME/Downloads
     wget -t 1 --content-disposition https://dn3.freedownloadmanager.org/6/latest/freedownloadmanager.deb
+    sudo apt install -y libpulse-mainloop-glib0
     sudo dpkg -i freedownloadmanager.deb
     sudo apt -f install
-    sudo apt install -y libpulse-mainloop-glib0
     sudo ln -s /opt/freedownloadmanager/fdm /usr/bin/fdm
 }
 
@@ -184,14 +188,15 @@ get_skype() {
 }
 
 get_typora() {
-    wget -t 1 -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
-    echo -e "\ndeb https://typora.io/linux ./" | sudo tee -a /etc/apt/sources.list
+    cd $HOME/Downloads
+    curl https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > /usr/share/keyrings/typora.asc
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/typora.asc] https://typora.io/linux ./" | sudo tee /etc/apt/sources.list.d/typora.list
     sudo apt update && sudo apt install -y typora
 }
 
 get_sublimetext() {
-    wget -t 1 -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor > sublimetext.asc
+    echo "deb [signed-by=/usr/share/keyrings/sublimetext.asc] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update && sudo apt install -y sublime-text
 }
 
@@ -201,7 +206,7 @@ get_ohmyzsh() {
 }
 
 get_telegram() {
-    sudo apt install -y telegram-desktop
+    sudo apt install -y telegram-desktop/bullseye-backports
 }
 get_other_packages() {
     cd $HOME/Downloads
@@ -325,16 +330,6 @@ apt_update
 
 #3.installation start
 sudo apt install -y $essential_packages
-
-  
-read -n 1 -p "
-###########################################################################
-                Do you wanna install optional packages? y/n
-###########################################################################
-" optional_input
-if [ $optional_input = y ] || [ $optional_input = Y ]; then
-    sudo apt install -y ${optional_packages}
-fi
 
 get_other_packages
 
