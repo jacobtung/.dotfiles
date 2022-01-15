@@ -126,9 +126,7 @@ system_settings_after() {
 }
 
 get_spotify() {
-    cd $HOME/Downloads
-    curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | gpg --dearmor spotify.asc
-    sudo mv spotify.asc /usr/share/keyrings/  
+    curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | gpg --dearmor > /usr/share/keyrings/spotify.asc
     echo "deb [signed-by=/usr/share/keyrings/spotify.asc] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
     sudo apt update && sudo apt install -y spotify-client
 }
@@ -149,17 +147,14 @@ get_discord() {
 
 get_vscode() {
     cd $HOME/Downloads
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-    sudo mv packages.microsoft.gpg /usr/share/keyrings/
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/packages.microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
     sudo apt update && sudo apt install -y code
 }
 
 get_virtualbox(){
-    cd $HOME/Downloads
-    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor > oracle_vbox_2016.asc
-    wget -q https://www.virtualbox.org/download/oracle_vbox.asc | gpg --dearmor > oracle_vbox.asc
-    sudo mv oracle_vbox.asc oracle_vbox_2016.asc /usr/share/keyrings/
+    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor > /usr/share/keyrings/oracle_vbox_2016.asc
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc | gpg --dearmor > /usr/share/keyrings/oracle_vbox.asc
     sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.asc signed-by=/usr/share/keyrings/oracle_vbox.asc] https://download.virtualbox.org/virtualbox/debian bullseye contrib" >> /etc/apt/sources.list'
     sudo apt update && sudo apt install -y virtualbox-6.1
 }
@@ -188,14 +183,13 @@ get_skype() {
 }
 
 get_typora() {
-    cd $HOME/Downloads
     curl https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > /usr/share/keyrings/typora.asc
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/typora.asc] https://typora.io/linux ./" | sudo tee /etc/apt/sources.list.d/typora.list
     sudo apt update && sudo apt install -y typora
 }
 
 get_sublimetext() {
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor > sublimetext.asc
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor > /usr/share/keyrings/sublimetext.asc
     echo "deb [signed-by=/usr/share/keyrings/sublimetext.asc] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update && sudo apt install -y sublime-text
 }
