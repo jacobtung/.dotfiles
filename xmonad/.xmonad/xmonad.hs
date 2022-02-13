@@ -43,10 +43,6 @@ myModMask       = mod4Mask
 
 myBorderWidth :: Dimension
 myBorderWidth   = 0
-myNormalBorderColor :: String
-myNormalBorderColor  = "#000000"
-myFocusedBorderColor :: String
-myFocusedBorderColor = "#ffffff"
 
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -92,10 +88,10 @@ myKeys =
         , ("M-C-k", windows W.swapUp)     -- Swap focused window with prev window
   --      , ("M-<Backspace>", promote)      -- Moves focused window to master, others maintain order
     -- Layouts
-        , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
+   --     , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
   --      , ("M-b", toggleCollapse)
         -- jacob's method to implement Toggle to Hide Xmobar
-       , ("M-b", spawn "dbus-send --session --dest=org.Xmobar.Control --type=method_call --print-reply '/org/Xmobar/Control'  org.Xmobar.Control.SendSignal \"string:Toggle -1\"" >> (broadcastMessage $ ToggleStruts) >> refresh) -- toggle to show dock
+--       , ("M-b", spawn "dbus-send --session --dest=org.Xmobar.Control --type=method_call --print-reply '/org/Xmobar/Control'  org.Xmobar.Control.SendSignal \"string:Toggle -1\"" >> (broadcastMessage $ ToggleStruts) >> refresh) -- toggle to show dock
         , ("M-<Return>", sendMessage $ MT.Toggle NBFULL)  -- >> sendMessage ToggleStruts) -- Toggles noborder/full
     -- Increase/decrease windows in the master pane or the stack
         , ("M-S-=", sendMessage (IncMasterN 1))      -- Increase # of clients master pane
@@ -113,7 +109,7 @@ myKeys =
         , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
         ]
 
-myLayout = id . MT.mkToggle ( MT.single NBFULL) $ avoidStruts $ addTopBar $ mySpacing 3 tiled      -- ||| Full
+myLayout = id . MT.mkToggle ( MT.single NBFULL) $ addTopBar $ mySpacing 3 tiled      -- ||| Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -158,8 +154,8 @@ myLogHook xmproc = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc
 ------------------------------------------------------------------------
 main :: IO ()
 main = do
-    xmproc <- spawnPipe "xmobar /home/jacob/.config/xmobar/xmobarrc"
-    xmonad  $ ewmh $ docks defaults { logHook = myLogHook xmproc }
+--    xmproc <- spawnPipe "xmobar /home/jacob/.config/xmobar/xmobarrc"
+    xmonad  $ ewmh $ docks defaults -- { logHook = myLogHook xmproc }
 
 defaults = def {
       -- simple stuff
@@ -169,14 +165,12 @@ defaults = def {
         borderWidth        = myBorderWidth,
         modMask            = myModMask,
         workspaces         = myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
 
       -- hooks, layouts
         layoutHook         = myLayout,
-        manageHook         = myManageHook,
-        handleEventHook    = myEventHook,
-        logHook            = return (),
+--        manageHook         = myManageHook,
+   --     handleEventHook    = myEventHook,
+     --   logHook            = return (),
         startupHook        = myStartupHook -- <+> setFullscreenSupported -- real fullscreen support
         }  `additionalKeysP` myKeys
 

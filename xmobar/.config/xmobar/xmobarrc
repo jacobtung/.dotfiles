@@ -1,7 +1,7 @@
 Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
        , additionalFonts = []
        , borderColor = "black"
-       , border = TopB
+       , border = TopB L 90
        , bgColor = "black"
        , fgColor = "grey"
        , alpha = 255
@@ -34,6 +34,6 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{ %uname% "
+       , template = " %StdinReader% }{ %cpu% | %memory% | %swap% | %date% "
        } 
 
