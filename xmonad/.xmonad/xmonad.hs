@@ -51,7 +51,7 @@ myFocusFollowsMouse = True
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
-myWorkspaces    = ["WS1","WS2","WS3","WS4","WS5","WS6","WS7","WS8","SYS"]
+myWorkspaces    = ["CLI","WWW","DOC","WS4","WS5","WS6","WS7","BGM","SYS"]
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- add spacing around window, first "False" turn off smartspacing(only one window no spacing)
 
 myShowWNameTheme :: SWNConfig
@@ -67,11 +67,23 @@ myShowWNameTheme = def
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
-    spawnOn "SYS" "xterm -e tty-clock -B -c"
+    -- SYS workspace 9
+    spawnOn "SYS" "xterm -e tty-clock -B -c -n"
     spawnOn "SYS" "xterm -e pulsemixer"
     spawnOn "SYS" "xterm -e htop"
+    -- BGM workspace 8
+    spawnOn "BGM" "spotify"
+    spawnOn "BGM" "xterm -e pulsemixer"
+    spawnOn "BGM" "xterm -e ncmpcpp"
+    -- DOC workspace 3
+    spawnOn "DOC" "thunar"
+    -- WWW workspace 2
+    spawnOn "WWW" "firefox-esr"
+    -- CLI workspace 1
+    spawnOn "CLI" "xterm"
+    -- others
     spawnOnce "feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg"
-    >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
+    -- >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
 
 myKeys :: [(String, X ())]
 myKeys =
