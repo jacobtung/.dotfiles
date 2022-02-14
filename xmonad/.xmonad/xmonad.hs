@@ -15,6 +15,7 @@ import XMonad
 import Data.Monoid
 import System.Exit
 import System.IO
+import XMonad.Actions.SpawnOn       -- autostart system workspace
 import XMonad.Hooks.EwmhDesktops    -- ewmh 
 import XMonad.Layout.ShowWName      -- show workspace name
 import XMonad.Layout.NoFrillsDecoration   --for window topbar
@@ -50,7 +51,7 @@ myFocusFollowsMouse = True
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
-myWorkspaces    = ["WS1","WS2","WS3","WS4","WS5","WS6","WS7","WS8","WS9"]
+myWorkspaces    = ["WS1","WS2","WS3","WS4","WS5","WS6","WS7","WS8","SYS"]
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- add spacing around window, first "False" turn off smartspacing(only one window no spacing)
 
 myShowWNameTheme :: SWNConfig
@@ -66,6 +67,9 @@ myShowWNameTheme = def
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
+    spawnOn "SYS" "xterm -e tty-clock -B -c"
+    spawnOn "SYS" "xterm -e pulsemixer"
+    spawnOn "SYS" "xterm -e htop"
     spawnOnce "feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg"
     >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
 
@@ -140,10 +144,10 @@ myLayout = id . MT.mkToggle ( MT.single NBFULL) $ addTopBar $ mySpacing 3 tiled 
     , urgentTextColor       = "#b58900"
     , decoHeight            = 4 }  ) 
 
---myManageHook = composeAll
---    [ className =? "MPlayer"        --> doFloat
---    , resource  =? "desktop_window" --> doIgnore
---    , resource  =? "kdesktop"       --> doIgnore ]
+myManageHook = composeAll
+    [ className =? "MPlayer"        --> doFloat
+    , resource  =? "desktop_window" --> doIgnore
+    , resource  =? "kdesktop"       --> doIgnore ]
 
 --myEventHook = handleEventHook def <+> fullscreenEventHook
 
@@ -177,7 +181,7 @@ defaults = def {
 
       -- hooks, layouts
         layoutHook         = showWName' myShowWNameTheme myLayout,
---        manageHook         = myManageHook,
+        manageHook         = manageSpawn <+> myManageHook,
    --     handleEventHook    = myEventHook,
      --   logHook            = return (),
         startupHook        = myStartupHook -- <+> setFullscreenSupported -- real fullscreen support
