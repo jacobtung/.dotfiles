@@ -10,12 +10,13 @@
 --import XMonad.Layout.Decoration
 --import XMonad.Layout.SimpleDecoration
 --import XMonad.Layout.MultiToggle
+--import XMonad.Hooks.DynamicLog  -- xmobar
 import XMonad
 import Data.Monoid
 import System.Exit
 import System.IO
 import XMonad.Hooks.EwmhDesktops    -- ewmh 
-import XMonad.Hooks.DynamicLog  -- xmobar
+import XMonad.Layout.ShowWName      -- show workspace name
 import XMonad.Layout.NoFrillsDecoration   --for window topbar
 import XMonad.Layout.Simplest -- simplest layout fullscreen and overlap
 import XMonad.Layout.MultiToggle.Instances -- toggle to sigal window (fake fullscreen)
@@ -36,7 +37,7 @@ myTerminal :: String
 myTerminal      = "xterm"
 
 myBrowser :: String
-myBrowser       = "firefox"
+myBrowser       = "firefox-esr"
 
 myModMask :: KeyMask
 myModMask       = mod4Mask
@@ -49,8 +50,16 @@ myFocusFollowsMouse = True
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["WS1","WS2","WS3","WS4","WS5","WS6","WS7","WS8","WS9"]
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True -- add spacing around window, first "False" turn off smartspacing(only one window no spacing)
+
+myShowWNameTheme :: SWNConfig
+myShowWNameTheme = def
+   -- { swn_font       = "Ubuntu:bold:size=60"
+    { swn_fade       = 1
+    , swn_bgcolor    = "#1c1f24"
+    , swn_color      = "#ffffff"
+    }
 
 --HOOKS SETTINGS
 ------------------------------------------------------------------------
@@ -131,24 +140,24 @@ myLayout = id . MT.mkToggle ( MT.single NBFULL) $ addTopBar $ mySpacing 3 tiled 
     , urgentTextColor       = "#b58900"
     , decoHeight            = 4 }  ) 
 
-myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+--myManageHook = composeAll
+--    [ className =? "MPlayer"        --> doFloat
+--    , resource  =? "desktop_window" --> doIgnore
+--    , resource  =? "kdesktop"       --> doIgnore ]
 
-myEventHook = handleEventHook def <+> fullscreenEventHook
+--myEventHook = handleEventHook def <+> fullscreenEventHook
 
-myLogHook :: Handle -> X ()
-myLogHook xmproc = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc 
-              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"  
-              , ppVisible = xmobarColor "#98be65" ""
-              , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""
-              , ppHiddenNoWindows = xmobarColor "#c792ea" ""
-              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  
-              , ppSep =  " | "  
-       --       , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 
-            --, ppOrder  = \(ws:l:t) -> [ws,l]++[t]   
-              }            
+--myLogHook :: Handle -> X ()
+--myLogHook xmproc = dynamicLogWithPP $ xmobarPP { ppOutput = hPutStrLn xmproc 
+--              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"  
+--              , ppVisible = xmobarColor "#98be65" ""
+--              , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""
+--              , ppHiddenNoWindows = xmobarColor "#c792ea" ""
+--              , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  
+--              , ppSep =  " | "  
+--       --       , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 
+--            --, ppOrder  = \(ws:l:t) -> [ws,l]++[t]   
+--              }            
 
 -- MAIN
 ------------------------------------------------------------------------
@@ -167,7 +176,7 @@ defaults = def {
         workspaces         = myWorkspaces,
 
       -- hooks, layouts
-        layoutHook         = myLayout,
+        layoutHook         = showWName' myShowWNameTheme myLayout,
 --        manageHook         = myManageHook,
    --     handleEventHook    = myEventHook,
      --   logHook            = return (),
