@@ -15,4 +15,5 @@
 !xmonad/.xmonad/xmonad.hs
 !zsh/.zshrc
 !README.md
-!gitignore
+!.gitignore
+*

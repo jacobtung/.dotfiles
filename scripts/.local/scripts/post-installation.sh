@@ -64,6 +64,8 @@ essential_packages="
 
     xorg
     lightdm
+    lightdm-gtk-greeter
+    lightdm-gtk-greeter-settings
     libghc-xmonad-contrib-dev
     xmonad
     xmobar
