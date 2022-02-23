@@ -71,6 +71,7 @@ essential_packages="
     xmobar
     suckless-tools
     dialog
+    libnotify-bin
     thunar
     gvfs
     gvfs-backends

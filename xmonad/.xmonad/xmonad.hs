@@ -126,13 +126,13 @@ myKeys =
         , ("M-h", sendMessage Shrink)                   -- Shrink horiz window width
         , ("M-l", sendMessage Expand)                   -- Expand horiz window width
     -- Multimedia Keys
-        , ("M-C-=", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
-        , ("M-C--", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
-        , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send 'Toggle mute button!'")
-        , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send 'Toggle mute button!'")
+        , ("M-C-=", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+        , ("M-C--", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+        , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'")
+        , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'")
         , ("<XF86AudioMicMute>", spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
-        , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
-        , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+        , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+        , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
         ]
 
 myLayout = id . MT.mkToggle ( MT.single NBFULL) $ addTopBar $ mySpacing 3 tiled      -- ||| Full
