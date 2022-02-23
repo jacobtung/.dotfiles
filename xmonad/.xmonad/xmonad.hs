@@ -96,9 +96,9 @@ myKeys =
     -- Useful programs to have a keybinding for launch
         , ("M-S-<Return>", spawn (myTerminal))
         , ("M-S-w", spawn (myBrowser))
-        , ("M-S-m", spawn "firefox-esr -new-window https://gmail.com" )
-        , ("M-S-n", spawn "firefox-esr -new-window https://calendar.google.com" )
-        , ("M-S-y", spawn "firefox-esr -new-window https://www.youtube.com/" )
+        , ("M-S-q", spawn "firefox-esr -new-window https://gmail.com" )
+        , ("M-S-d", spawn "firefox-esr -new-window https://calendar.google.com" )
+        , ("M-S-v", spawn "firefox-esr -new-window https://www.youtube.com/" )
     --    , ("M-S-b", spawn "~/.local/bin/Bitwarden*.AppImage --no-sandbox %U")
         , ("M-S-e", spawn "thunar")
         , ("M-S-s", spawn "spotify")
@@ -109,9 +109,9 @@ myKeys =
         , ("M-m", windows W.focusMaster)  -- Move focus to the master window
         , ("M-j", windows W.focusDown)    -- Move focus to the next window
         , ("M-k", windows W.focusUp)      -- Move focus to the prev window
-        , ("M-C-m", windows W.swapMaster) -- Swap the focused window and the master window
-        , ("M-C-j", windows W.swapDown)   -- Swap focused window with next window
-        , ("M-C-k", windows W.swapUp)     -- Swap focused window with prev window
+        , ("M-S-m", windows W.swapMaster) -- Swap the focused window and the master window
+        , ("M-S-j", windows W.swapDown)   -- Swap focused window with next window
+        , ("M-S-k", windows W.swapUp)     -- Swap focused window with prev window
   --      , ("M-<Backspace>", promote)      -- Moves focused window to master, others maintain order
     -- Layouts
    --     , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
@@ -128,7 +128,7 @@ myKeys =
     -- Multimedia Keys
         , ("M-C-=", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
         , ("M-C--", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
-        , ("C-S-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'")
+        , ("M-C-m", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'")
         , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'")
         , ("<XF86AudioMicMute>", spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
