@@ -92,6 +92,7 @@ myKeys =
         , ("M-C-q", io exitSuccess)            -- Quits xmonad
     -- Run Dmenu
         , ("M-p", spawn "dmenu_run") -- Dmenu
+        , ("M-q", spawn "")
     -- Useful programs to have a keybinding for launch
         , ("M-S-<Return>", spawn (myTerminal))
         , ("M-S-w", spawn (myBrowser))
