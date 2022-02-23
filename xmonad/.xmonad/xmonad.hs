@@ -68,19 +68,18 @@ myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
     -- SYS workspace 9
-    spawnOn "SYS" "xterm -e tty-clock -B -c -n"
-    spawnOn "SYS" "xterm -e pulsemixer"
-    spawnOn "SYS" "xterm -e htop"
+    spawnOnOnce "SYS" "xterm -e tty-clock -B -c -n"
+    spawnOnOnce "SYS" "xterm -e pulsemixer"
+    spawnOnOnce "SYS" "xterm -e htop"
     -- BGM workspace 8
-    spawnOn "BGM" "spotify"
-    spawnOn "BGM" "xterm -e pulsemixer"
-    spawnOn "BGM" "xterm -e ncmpcpp"
+    spawnOnOnce "BGM" "spotify"
+    spawnOnOnce "BGM" "xterm -e ncmpcpp"
     -- DOC workspace 3
-    spawnOn "DOC" "thunar"
+    spawnOnOnce "DOC" "thunar"
     -- WWW workspace 2
-    spawnOn "WWW" "firefox-esr"
+    spawnOnOnce "WWW" "firefox-esr"
     -- CLI workspace 1
-    spawnOn "CLI" "xterm"
+    spawnOnOnce "CLI" "xterm"
     -- others
     spawnOnce "feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg"
     -- >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
