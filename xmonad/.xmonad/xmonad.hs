@@ -16,6 +16,7 @@ import Data.Monoid
 import System.Exit
 import System.IO
 import XMonad.Actions.SpawnOn       -- autostart system workspace
+import XMonad.Actions.DynamicProjects
 import XMonad.Hooks.EwmhDesktops    -- ewmh 
 import XMonad.Layout.ShowWName      -- show workspace name
 import XMonad.Layout.NoFrillsDecoration   --for window topbar
@@ -62,24 +63,52 @@ myShowWNameTheme = def
     , swn_color      = "#ffffff"
     }
 
+projects :: [Project]
+projects = 
+    [ Project   { projectName       = "SYS"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOnOnce "SYS" "xterm -e tty-clock -B -cn"
+                                                spawnOnOnce "SYS" "xterm -e pulsemixer"
+                                                spawnOnOnce "SYS" "xterm -e htop"
+                }
+
+    , Project   { projectName       = "BGM"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOnOnce "BGM" "spotify %u"
+                                                spawnOnOnce "BGM" "xterm -e ncmpcpp"
+                } 
+
+    , Project   { projectName       = "DOC"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOnOnce "DOC" "thunar"
+                }
+
+    , Project   { projectName       = "WWW"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOnOnce "WWW" "firefox-esr"
+                }
+                
+    , Project   { projectName       = "CLI"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOnOnce "CLI" "xterm"
+                }
+    ]
+
 --HOOKS SETTINGS
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
     -- spawnOnce "picom -f &"
     -- SYS workspace 9
-    spawnOnOnce "SYS" "xterm -e tty-clock -B -c -n"
-    spawnOnOnce "SYS" "xterm -e pulsemixer"
-    spawnOnOnce "SYS" "xterm -e htop"
+    -- spawnOnOnce "SYS" "xterm -e tty-clock -B -c -n" >> spawnOnOnce "SYS" "xterm -e pulsemixer" >> spawnOnOnce "SYS" "xterm -e htop"
     -- BGM workspace 8
-    spawnOnOnce "BGM" "spotify"
-    spawnOnOnce "BGM" "xterm -e ncmpcpp"
+    -- spawnOnOnce "BGM" "spotify" >> spawnOnOnce "BGM" "xterm -e ncmpcpp"
     -- DOC workspace 3
-    spawnOnOnce "DOC" "thunar"
+    -- spawnOnOnce "DOC" "thunar"
     -- WWW workspace 2
-    spawnOnOnce "WWW" "firefox-esr"
+    -- spawnOnOnce "WWW" "firefox-esr"
     -- CLI workspace 1
-    spawnOnOnce "CLI" "xterm"
+    -- spawnOnOnce "CLI" "xterm"
     -- others
     spawnOnce "feh -z --bg-fill --no-fehbg /home/jacob/Pictures/Backgrounds/linux-debian-wallpaper.jpg"
     -- >> checkKeymap defaults myKeys                         -- EZConfig func to help you check keymap conflicts
@@ -180,7 +209,7 @@ myManageHook = composeAll
 main :: IO ()
 main = do
 --    xmproc <- spawnPipe "xmobar /home/jacob/.config/xmobar/xmobarrc"
-    xmonad  $ ewmh $ docks defaults -- { logHook = myLogHook xmproc }
+    xmonad $dynamicProjects projects $ ewmh $ docks defaults -- { logHook = myLogHook xmproc }
 
 defaults = def {
       -- simple stuff
