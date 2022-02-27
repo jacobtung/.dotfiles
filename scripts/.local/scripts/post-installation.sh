@@ -75,6 +75,7 @@ essential_packages="
     thunar
     gvfs
     gvfs-backends
+    gvfs-bin
     xterm
     imagemagick
     ibus
@@ -91,6 +92,10 @@ essential_packages="
     fonts-noto-color-emoji
     fonts-cascadia-code
     papirus-icon-theme
+    samba
+    smbclient
+    cifs-utils
+
     
     libreoffice
     firefox-esr
