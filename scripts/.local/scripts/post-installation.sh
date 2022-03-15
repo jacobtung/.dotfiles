@@ -44,6 +44,7 @@ essential_packages="
     nfs-kernel-server
 
     curl
+    yt-dlp
     vim
     htop
     neofetch
