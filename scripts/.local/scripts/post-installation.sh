@@ -42,6 +42,8 @@ essential_packages="
     lm-sensors
     nfs-common
     nfs-kernel-server
+    bluez
+    blueman
 
     curl
     yt-dlp
@@ -62,6 +64,7 @@ essential_packages="
     pulseaudio
     pulsemixer
     network-manager
+    hdparm
 
     xorg
     lightdm
