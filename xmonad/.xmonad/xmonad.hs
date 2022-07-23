@@ -10,6 +10,8 @@
 --import XMonad.Layout.Decoration
 --import XMonad.Layout.SimpleDecoration
 --import XMonad.Layout.MultiToggle
+--asfsadf
+--asdf
 --import XMonad.Hooks.DynamicLog  -- xmobar
 import XMonad
 import Data.Monoid
@@ -29,6 +31,7 @@ import XMonad.Hooks.ManageDocks --manage dock type programs
 import XMonad.Util.Run --all kinds of run options
 import XMonad.Util.EZConfig  --short keybinds; auto submap; keymap check conflicts
 import XMonad.Util.SpawnOnce --startup hook to spawn a command only once; n time * n ws
+import XMonad.Actions.GridSelect
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import qualified XMonad.Layout.MultiToggle as MT
@@ -63,6 +66,65 @@ myShowWNameTheme = def
     , swn_color      = "#ffffff"
     }
 
+myNavigation :: TwoD a (Maybe a)
+myNavigation = makeXEventhandler $ shadowWithKeymap navKeyMap navDefaultHandler
+  where navKeyMap = M.fromList [
+          ((0,xK_Escape), cancel)
+         ,((0,xK_Return), select)
+         ,((0,xK_slash) , substringSearch myNavigation)
+         ,((0,xK_Left)  , move (-1,0)  >> myNavigation)
+         ,((0,xK_h)     , move (-1,0)  >> myNavigation)
+         ,((0,xK_Right) , move (1,0)   >> myNavigation)
+         ,((0,xK_l)     , move (1,0)   >> myNavigation)
+         ,((0,xK_Down)  , move (0,1)   >> myNavigation)
+         ,((0,xK_j)     , move (0,1)   >> myNavigation)
+         ,((0,xK_Up)    , move (0,-1)  >> myNavigation)
+         ,((0,xK_y)     , move (-1,-1) >> myNavigation)
+         ,((0,xK_i)     , move (1,-1)  >> myNavigation)
+         ,((0,xK_n)     , move (-1,1)  >> myNavigation)
+         ,((0,xK_m)     , move (1,-1)  >> myNavigation)
+         ,((0,xK_space) , setPos (0,0) >> myNavigation)
+         ]
+        navDefaultHandler = const myNavigation
+
+myColorizer :: Window -> Bool -> X (String, String)
+myColorizer = colorRangeFromClassName
+                (0x28,0x2c,0x34) -- lowest inactive bg
+                (0x28,0x2c,0x34) -- highest inactive bg
+                (0xc7,0x92,0xea) -- active bg
+                (0xc0,0xa7,0x9a) -- inactive fg
+                (0x28,0x2c,0x34) -- active fg
+
+mygridConfig :: p -> GSConfig Window
+mygridConfig colorizer = (buildDefaultGSConfig myColorizer)
+    { gs_cellheight   = 40
+    , gs_cellwidth    = 200
+    , gs_cellpadding  = 6
+    , gs_navigate    = myNavigation
+    , gs_originFractX = 0.5
+    , gs_originFractY = 0.5
+--    , gs_font         = myFont
+    }
+
+mygs_def = 
+  [ ("record-gui",      "byzanz-record-gui")
+  , ("printscreen",     "printscreen")
+  , ("record-region",   "byzanz-record-region")
+  , ("record-window",   "byzanz-record-window")
+  , ("changekeyboard",   "changekeyboard")
+  ]
+
+spawnSelected' :: [(String, String)] -> X ()
+spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
+    where conf = def
+                   { gs_cellheight   = 40
+                   , gs_cellwidth    = 180
+                   , gs_cellpadding  = 6
+                   , gs_originFractX = 0.5
+                   , gs_originFractY = 0.5
+--                   , gs_font         = myFont
+                   }
+
 projects :: [Project]
 projects = 
     [ Project   { projectName       = "SYS"
@@ -74,7 +136,7 @@ projects =
 
     , Project   { projectName       = "BGM"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOnOnce "BGM" "spotify %u"
+                , projectStartHook  = Just $ do --  spawnOnOnce "BGM" "spotify %u"
                                                 spawnOnOnce "BGM" "xterm -e ncmpcpp"
                 } 
 
@@ -122,6 +184,7 @@ myKeys =
         , ("M-p", spawn "dmenu_run") -- Dmenu
         , ("M-q", spawn "")
     -- Useful programs to have a keybinding for launch
+        , ("M-S-p", spawnSelected' mygs_def )
         , ("M-S-<Return>", spawn (myTerminal))
         , ("M-S-w", spawn (myBrowser))
         , ("M-S-q", spawn "firefox-esr -new-window https://gmail.com" )
