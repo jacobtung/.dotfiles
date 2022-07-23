@@ -107,7 +107,10 @@ mygridConfig colorizer = (buildDefaultGSConfig myColorizer)
     }
 
 mygs_def = 
-  [ ("record-gui",      "byzanz-record-gui")
+  [ ("poweroff",        "poweroff")
+  , ("suspend",         "inwin_suspend")
+  , ("reboot",          "reboot")
+  , ("record-gui",      "byzanz-record-gui")
   , ("printscreen",     "printscreen")
   , ("record-region",   "byzanz-record-region")
   , ("record-window",   "byzanz-record-window")
