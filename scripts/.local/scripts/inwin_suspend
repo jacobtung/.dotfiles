@@ -1,0 +1,8 @@
+#!/bin/bash
+
+inwin_suspend() {
+    systemctl suspend
+    slock
+    }
+
+inwin_suspend
