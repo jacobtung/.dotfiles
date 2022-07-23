@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# map caps to shift_r
+changekeyboard() {
+    setxkbmap -option caps:none
+    xmodmap -e "keycode 66 = Shift_R NoSymbol Shift_R"
+}
+
+changekeyboard
