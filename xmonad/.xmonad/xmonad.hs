@@ -10,8 +10,6 @@
 --import XMonad.Layout.Decoration
 --import XMonad.Layout.SimpleDecoration
 --import XMonad.Layout.MultiToggle
---asfsadf
---asdf
 --import XMonad.Hooks.DynamicLog  -- xmobar
 import XMonad
 import Data.Monoid
@@ -74,37 +72,12 @@ myNavigation = makeXEventhandler $ shadowWithKeymap navKeyMap navDefaultHandler
          ,((0,xK_slash) , substringSearch myNavigation)
          ,((0,xK_Left)  , move (-1,0)  >> myNavigation)
          ,((0,xK_h)     , move (-1,0)  >> myNavigation)
-         ,((0,xK_Right) , move (1,0)   >> myNavigation)
          ,((0,xK_l)     , move (1,0)   >> myNavigation)
-         ,((0,xK_Down)  , move (0,1)   >> myNavigation)
          ,((0,xK_j)     , move (0,1)   >> myNavigation)
-         ,((0,xK_Up)    , move (0,-1)  >> myNavigation)
-         ,((0,xK_y)     , move (-1,-1) >> myNavigation)
-         ,((0,xK_i)     , move (1,-1)  >> myNavigation)
-         ,((0,xK_n)     , move (-1,1)  >> myNavigation)
-         ,((0,xK_m)     , move (1,-1)  >> myNavigation)
+         ,((0,xK_k)     , move (0,-1)  >> myNavigation)
          ,((0,xK_space) , setPos (0,0) >> myNavigation)
          ]
         navDefaultHandler = const myNavigation
-
-myColorizer :: Window -> Bool -> X (String, String)
-myColorizer = colorRangeFromClassName
-                (0x28,0x2c,0x34) -- lowest inactive bg
-                (0x28,0x2c,0x34) -- highest inactive bg
-                (0xc7,0x92,0xea) -- active bg
-                (0xc0,0xa7,0x9a) -- inactive fg
-                (0x28,0x2c,0x34) -- active fg
-
-mygridConfig :: p -> GSConfig Window
-mygridConfig colorizer = (buildDefaultGSConfig myColorizer)
-    { gs_cellheight   = 40
-    , gs_cellwidth    = 200
-    , gs_cellpadding  = 6
-    , gs_navigate    = myNavigation
-    , gs_originFractX = 0.5
-    , gs_originFractY = 0.5
---    , gs_font         = myFont
-    }
 
 mygs_def = 
   [ ("poweroff",        "poweroff")
@@ -121,11 +94,13 @@ spawnSelected' :: [(String, String)] -> X ()
 spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
     where conf = def
                    { gs_cellheight   = 40
-                   , gs_cellwidth    = 180
+                   , gs_cellwidth    = 200
                    , gs_cellpadding  = 6
                    , gs_originFractX = 0.5
                    , gs_originFractY = 0.5
---                   , gs_font         = myFont
+                   , gs_navigate     = myNavigation
+                   , gs_colorizer    = defaultColorizer 
+--                 , gs_font         = myFont
                    }
 
 projects :: [Project]
@@ -187,7 +162,7 @@ myKeys =
         , ("M-p", spawn "dmenu_run") -- Dmenu
         , ("M-q", spawn "")
     -- Useful programs to have a keybinding for launch
-        , ("M-S-p", spawnSelected' mygs_def )
+        , ("M-S-p", spawnSelected' mygs_def)
         , ("M-S-<Return>", spawn (myTerminal))
         , ("M-S-w", spawn (myBrowser))
         , ("M-S-q", spawn "firefox-esr -new-window https://gmail.com" )
