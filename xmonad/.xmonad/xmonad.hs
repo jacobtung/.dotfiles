@@ -83,6 +83,7 @@ mygs_def =
   [ ("poweroff",        "poweroff")
   , ("suspend",         "inwin_suspend")
   , ("reboot",          "reboot")
+  , ("mirror1080p",     "mirror1080p")
   , ("record-gui",      "byzanz-record-gui")
   , ("printscreen",     "printscreen")
   , ("record-region",   "byzanz-record-region")

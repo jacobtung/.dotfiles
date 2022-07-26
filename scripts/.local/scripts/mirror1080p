@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mirror1080p() {
+    xrandr --output DP-1 --mode 1920x1080 --scale 1x1 --output DP-2 --same-as DP-1 --mode 2560x1440 --scale 0.75x0.75
+    }
+
+mirror1080p
