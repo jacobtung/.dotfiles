@@ -161,14 +161,14 @@ myKeys =
         , ("M-C-q", io exitSuccess)            -- Quits xmonad
     -- Run Dmenu
         , ("M-p", spawn "dmenu_run") -- Dmenu
+        , ("M-S-p", spawnSelected' mygs_def)
         , ("M-q", spawn "")
     -- Useful programs to have a keybinding for launch
-        , ("M-S-p", spawnSelected' mygs_def)
         , ("M-S-<Return>", spawn (myTerminal))
         , ("M-S-w", spawn (myBrowser))
-        , ("M-S-q", spawn "firefox-esr -new-window https://gmail.com" )
+        , ("M-S-g", spawn "firefox-esr -new-window https://gmail.com" )
         , ("M-S-d", spawn "firefox-esr -new-window https://calendar.google.com" )
-        , ("M-S-v", spawn "firefox-esr -new-window https://www.youtube.com/" )
+        , ("M-S-y", spawn "firefox-esr -new-window https://www.youtube.com/" )
     --    , ("M-S-b", spawn "~/.local/bin/Bitwarden*.AppImage --no-sandbox %U")
         , ("M-S-e", spawn "thunar")
         , ("M-S-s", spawn "spotify")
