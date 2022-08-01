@@ -172,6 +172,7 @@ myKeys =
     --    , ("M-S-b", spawn "~/.local/bin/Bitwarden*.AppImage --no-sandbox %U")
         , ("M-S-e", spawn "thunar")
         , ("M-S-s", spawn "spotify")
+        , ("M-S-l", spawn "slock")
     --    , ("<Print>", spawn "printscreen")
     -- Kill windows
         , ("M-S-c", kill)     -- Kill the currently focused client
