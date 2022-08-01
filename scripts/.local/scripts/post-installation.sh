@@ -87,6 +87,7 @@ essential_packages="
     vim-gtk
     mpv
     sxiv
+    mirage
     feh
     zathura
     zathura-pdf-poppler
