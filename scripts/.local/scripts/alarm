@@ -1,0 +1,16 @@
+#!/bin/bash
+
+CLOCK=`date +%H`
+
+bell() {
+    if [ $CLOCK -gt 7] && [ $CLOCK -lt 20]
+    then
+        mplayer ./07-19.mp3
+    else
+        mplayer ./20-06.mp3
+    fi
+    }
+
+bell
+notify-send -t 1800 -i /usr/share/icons/Papirus-Dark/128x128/apps/alarm-clock.svg "$CLOCK点整"
+espeak -vzh "$CLOCK 点整"
