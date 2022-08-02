@@ -13,6 +13,7 @@ printscreen0() {
 printscreen() {
     sleep 5
     printscreen0
+    paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga & 
 }
 
 printscreen
