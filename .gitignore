@@ -1,10 +1,24 @@
+# .dotfile gitignore file syntax
+# 1.from 'fake root' folder
+# 2.ignore folder && file
+# 3.ignore certain folder/* with needed files
+# 4.!get back these files after in followed lines
+# 5.loop to step1
+# 总结：使用排除法确定跟踪文件夹和文件；
+# 算法：从ROOT开始，根据上述算法写每一项的syntax；
+# 具体：1.从根文件夹开始，先列出完全不需要跟踪的文件夹和文件；
+#       2.再列出需要部分内部跟踪的文件夹，用下面的方式：folder/*先排除所有内部；
+#       3.紧随其后，用!反向确定需要跟踪的文件和文件夹；
+#       4.根文件夹剩下的都是需要全部跟踪的文件和文件夹。
+
 ibus/.config/ibus/bus/
 ibus/.config/ibus/rime/*
 !ibus/.config/ibus/rime/default.custom.yaml
 !ibus/.config/ibus/rime/double_pinyin_flypy.schema.yaml
 mpd/.config/mpd/*
 !mpd/.config/mpd/mpd.conf
-ncmpcpp/.config/ncmpcpp/error.log
+ncmpcpp/.config/ncmpcpp/*
+!ncmpcpp/.config/ncmpcpp/config
 scripts/.local/share/
 typora/.config/Typora/*
 !typora/.config/Typora/themes/nord/
