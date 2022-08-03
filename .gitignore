@@ -6,10 +6,13 @@
 /ibus/.config/ibus/*
 !/ibus/.config/ibus/rime/default.custom.yaml
 !/ibus/.config/ibus/rime/double_pinyin_flypy.schema.yaml
+
 /mpd/.config/mpd/*
 !mpd/.config/mpd/mpd.conf
+
 /ncmpcpp/.config/ncmpcpp/*
 !/ncmpcpp/.config/ncmpcpp/config
+
 /scripts/.local/*
 !/scripts/.local/scripts/*
 
@@ -22,5 +25,6 @@
 
 /vim/.vim/*
 !/vim/.vim/autoload/plug.vim
+
 /xmonad/.xmonad/*
 !/xmonad/.xmonad/xmonad.hs
