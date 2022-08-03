@@ -1,5 +1,6 @@
 #!/bin/bash
 export PATH=$PATH:/bin:/usr/bin:/home/jacob/.local/scripts
+# executed by cron vs executed in terminal get different results caused by env!
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 CLOCK=`date +\%H`
