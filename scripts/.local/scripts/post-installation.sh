@@ -109,6 +109,8 @@ essential_packages="
     gimp
     qbittorrent
     obs-studio
+    espeak
+    sox
     liferea
 "
 
