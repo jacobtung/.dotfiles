@@ -16,7 +16,7 @@ bell() {
 
 bell
 
-/usr/bin/notify-send -t 1800 -i /home/jacob/.local/scripts/alarm-clock.svg "$CLOCK 点整"
+/usr/bin/notify-send -t 3000 -i /home/jacob/.local/scripts/alarm-clock.svg "$CLOCK 点整"
 
 /usr/bin/espeak -vzh "$CLOCK 点整"
 
