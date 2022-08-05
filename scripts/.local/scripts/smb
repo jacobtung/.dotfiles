@@ -1,0 +1,9 @@
+#!/bin/bash
+
+read -p "Enter SMB folder name:"
+
+if [ ! -d /mnt/"$REPLY" ];then
+    sudo mkdir -p /mnt/"$REPLY"
+fi
+
+sudo mount -t cifs -o user=jacob //truenas.local/"$REPLY" /mnt/"$REPLY"
