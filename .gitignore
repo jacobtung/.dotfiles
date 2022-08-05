@@ -14,7 +14,7 @@
 !/ncmpcpp/.config/ncmpcpp/config
 
 /scripts/.local/*
-!/scripts/.local/scripts/*
+!/scripts/.local/scripts/
 
 # exclusive method
 /typora/.config/Typora/*
