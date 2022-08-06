@@ -6,4 +6,4 @@ if [ ! -d /mnt/"$REPLY" ];then
     sudo mkdir -p /mnt/"$REPLY"
 fi
 
-sudo mount -t cifs -o user=jacob //truenas.local/"$REPLY" /mnt/"$REPLY"
+sudo mount -t cifs -o rw,uid=$(id -u),gid=$(id -g),user=jacob //truenas.local/"$REPLY" /mnt/"$REPLY"
