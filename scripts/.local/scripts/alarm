@@ -1,18 +1,18 @@
 #!/bin/bash
 export PATH=$PATH:/bin:/usr/bin:/home/jacob/.local/scripts
 # executed by cron vs executed in terminal get different results caused by env!
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 #export DISPLAY=:0
-#export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 CLOCK=`date +\%H`
 
 bell() {
     if [ $CLOCK -gt 7 ] && [ $CLOCK -lt 20 ]
     then
-        /usr/bin/play /home/jacob/.local/scripts/07-19.mp3
+        /usr/bin/paplay /home/jacob/.local/scripts/07-19.ogg
     else
-        /usr/bin/play /home/jacob/.local/scripts/20-06.mp3
+        /usr/bin/paplay /home/jacob/.local/scripts/20-06.ogg
     fi
     }
 
