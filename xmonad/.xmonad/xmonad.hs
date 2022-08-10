@@ -131,7 +131,7 @@ projects =
                 
     , Project   { projectName       = "CLI"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOnOnce "CLI" "xterm -e 'neofetch; $SHELL'"
+                , projectStartHook  = Just $ do spawnOnOnce "CLI" "xterm" -- "xterm -e 'neofetch; $SHELL'"
                 }
     ]
 
