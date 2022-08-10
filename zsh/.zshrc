@@ -105,3 +105,5 @@ source $ZSH/oh-my-zsh.sh
 alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
+
+cowsay "Learning by doing\!"
