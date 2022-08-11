@@ -106,4 +106,4 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 
-cowsay "Learning by doing\!"
+cowsay "Learning by doing!"
