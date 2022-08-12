@@ -4,8 +4,16 @@
 # 3. writing syntax: tree structure && Breath first Search example:typora
 
 /ibus/.config/ibus/*
+!/ibus/.config/ibus/rime
+/ibus/.config/ibus/rime/*
 !/ibus/.config/ibus/rime/default.custom.yaml
 !/ibus/.config/ibus/rime/double_pinyin_flypy.schema.yaml
+!/ibus/.config/ibus/rime/default.custom.yaml
+!/ibus/.config/ibus/rime/double_pinyin_flypy.custom.yaml
+!/ibus/.config/ibus/rime/luna_pinyin.extended.dict.yaml
+!/ibus/.config/ibus/rime/luna_pinyin.poetry.dict.yaml
+!/ibus/.config/ibus/rime/luna_pinyin.hanyu.dict.yaml
+!/ibus/.config/ibus/rime/luna_pinyin.cn_en.dict.yaml
 
 /mpd/.config/mpd/*
 !mpd/.config/mpd/mpd.conf
