@@ -89,6 +89,7 @@ mygs_def =
   , ("record-window",   "byzanz-record-window")
   , ("changekeyboard",  "changekeyboard")
   , ("mountsmb",        "mountsmb")
+  , ("rime_restart",    "rime_restart")
   ]
 
 spawnSelected' :: [(String, String)] -> X ()
